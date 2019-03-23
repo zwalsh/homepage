@@ -14,7 +14,7 @@ class Server {
 
   create_session(email, password) {
     return this.send_post(
-      '/api/v1/auth',
+      '/api/authorize',
       {
         email,
         password
