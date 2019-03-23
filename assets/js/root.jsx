@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import api from './api';
+import Header from './Header';
 
 export default function root_init(node, store) {
   ReactDOM.render(
@@ -24,6 +25,7 @@ class Root extends Component {
     return (
       <div>
         <Router>
+          <Header />
           <div>Good Afternoon, Zach</div>
         </Router>
       </div>
