@@ -19,4 +19,10 @@ defmodule HomepageWeb.FallbackController do
     |> put_view(HomepageWeb.ErrorView)
     |> render(:"404")
   end
+
+  def call(conn, {:error, "invalid password"}) do
+      conn
+      |> put_status(:forbidden)
+      |> json(%{error: "invalid login"})
+  end
 end
