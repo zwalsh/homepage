@@ -20,7 +20,9 @@ defmodule HomepageWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", HomepageWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", HomepageWeb do
+    pipe_through :api
+
+    resources "/users", UserController, except: [:new, :edit]
+  end
 end
