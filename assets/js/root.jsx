@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 
 import api from './api';
 import Header from './Header';
+import Background from './Background';
 
 export default function root_init(node, store) {
   // todo - join session with cookie here probably
@@ -26,6 +27,7 @@ class Root extends Component {
     return (
       <div>
         <Router>
+          <Background />
           <Header />
           <div>Good Afternoon, Zach</div>
         </Router>

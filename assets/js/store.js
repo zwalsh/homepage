@@ -19,10 +19,19 @@ function session(state = null, action) {
   }
 }
 
+function bg_img(state = null, action) {
+  switch (action.type) {
+    case 'NEW_BG_IMG':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
 function root_reducer(state0, action) {
   // console.log('reducer', state0, action);
 
-  let reducer = combineReducers({ user, session });
+  let reducer = combineReducers({ user, session, bg_img });
 
   let state1 = reducer(state0, action);
 
