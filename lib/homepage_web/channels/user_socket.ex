@@ -2,7 +2,7 @@ defmodule HomepageWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", HomepageWeb.RoomChannel
+  channel "homepage:*", HomepageWeb.HomepageChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

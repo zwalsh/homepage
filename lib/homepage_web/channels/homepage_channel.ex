@@ -3,6 +3,7 @@ defmodule HomepageWeb.HomepageChannel do
 
   def join("homepage:"<>user_id, payload, socket) do
     if authorized?(payload) do
+      send(self, :after_join)
       {:ok, socket}
     else
       {:error, %{reason: "unauthorized"}}
@@ -22,8 +23,13 @@ defmodule HomepageWeb.HomepageChannel do
     {:noreply, socket}
   end
 
+  def handle_info(:after_join, socket) do
+    push(socket, "bg_img", %{url: Homepage.BackgroundImage.get_image_url()})
+    {:noreply, socket}
+  end
+
   # Add authorization logic here as required.
-  defp authorized?(%{"token" => token}) do
+  defp authorized?(_) do
     true
   end
 end

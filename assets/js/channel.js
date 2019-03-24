@@ -16,6 +16,15 @@ class ChannelWrapper {
         type: "NEW_SESSION",
         data: session
       });
+
+      let channel = socket.channel("homepage:" + session.user_id, {});
+      channel.join()
+        .receive("ok", (resp) => {
+          console.log(resp);
+        });
+      channel.on('bg_img', resp => {
+        console.log(resp);
+      });
     })
   }
 }
