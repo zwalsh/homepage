@@ -1,7 +1,7 @@
 defmodule HomepageWeb.HomepageChannel do
   use HomepageWeb, :channel
 
-  def join("homepage:lobby", payload, socket) do
+  def join("homepage:"<>user_id, payload, socket) do
     if authorized?(payload) do
       {:ok, socket}
     else
@@ -23,7 +23,7 @@ defmodule HomepageWeb.HomepageChannel do
   end
 
   # Add authorization logic here as required.
-  defp authorized?(_payload) do
+  defp authorized?(%{"token" => token}) do
     true
   end
 end

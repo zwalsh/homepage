@@ -8,6 +8,7 @@ import api from './api';
 import Header from './Header';
 
 export default function root_init(node, store) {
+  // todo - join session with cookie here probably
   ReactDOM.render(
     <Provider store={store}>
       <Root />

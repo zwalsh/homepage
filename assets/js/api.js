@@ -1,4 +1,5 @@
 import store from './store';
+import channel from './channel';
 
 class Server {
   send_post(path, data, callback, error_callback) {
@@ -20,10 +21,8 @@ class Server {
         password
       },
       resp => {
-        store.dispatch({
-          type: 'NEW_SESSION',
-          data: resp.data
-        });
+        // todo stick session into a cookie
+        channel.init_channel(resp.data);
       },
       (request, _status, _error) => {
         if (request) {
