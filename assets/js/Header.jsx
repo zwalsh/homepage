@@ -43,6 +43,7 @@ function Header(props) {
   }
 
   function logout() {
+    cookies.remove('homepage-user-session');
     let action = {
       type: 'LOGOUT_SESSION'
     };
