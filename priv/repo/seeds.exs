@@ -21,5 +21,5 @@ password_hash: pass})
 Repo.insert!(%User{first: "Zach", last: "Walsh", email: "zach@example.com",
 password_hash: pass})
 
-Repo.insert!(%User{first: "A", last: "B", email: "a",
+Repo.insert!(%User{first: "Nat", last: "B", email: "a",
 password_hash: Argon2.hash_pwd_salt("a")})

@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { connect } from 'react-redux';
-import api from './api';
 
 function Background(props) {
-  return (
+  return props.bg_img ? (
     <div className="bg" style={{ backgroundImage: `url(${props.bg_img})` }} />
+  ) : (
+    <span />
   );
 }
 

@@ -14,7 +14,8 @@ defmodule HomepageWeb.AuthController do
         "data" => %{
           "token" => Phoenix.Token.sign(HomepageWeb.Endpoint, "user_id", user.id),
           "user_id" => user.id,
-          "email" => user.email
+          "email" => user.email,
+          "first" => user.first
         }
       })
     end

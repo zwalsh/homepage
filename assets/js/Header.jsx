@@ -8,6 +8,18 @@ function Header(props) {
   let { session, dispatch } = props;
   let session_info, email, password;
 
+  let now = new Date().getHours();
+
+  let greeting;
+
+  if (now < 12) {
+    greeting = 'Morning';
+  } else if (now >= 12 && now < 18) {
+    greeting = 'Afternoon';
+  } else {
+    greeting = 'Evening';
+  }
+
   function updateEmail(ev) {
     email = ev.target.value;
   }
@@ -27,43 +39,41 @@ function Header(props) {
     dispatch(action);
   }
 
-  if (session == null) {
-    session_info = (
-      <div className="form-inline my-2">
-        <input type="email" placeholder="email" onChange={updateEmail} /> &nbsp;
-        <input
-          type="password"
-          placeholder="password"
-          onChange={updatePassword}
-          onKeyPress={e => {
-            if (e.key == 'Enter') {
-              login();
-            }
-          }}
-        />{' '}
-        &nbsp;
-        <button className="btn btn-secondary" onClick={login}>
-          Login
-        </button>
+  session_info = session ? (
+    <div className="mb-2">
+      <div>
+        Good {greeting}, {session.first}
       </div>
-    );
-  } else {
-    session_info = (
-      <div className="my-2">
-        <span>Logged in as {session.email}</span> &nbsp;
-        <button className="btn btn-secondary" onClick={() => logout()}>
-          Logout
-        </button>
-      </div>
-    );
-  }
+      <button className="btn btn-secondary" onClick={() => logout()}>
+        Logout
+      </button>
+    </div>
+  ) : (
+    <div>
+      <input type="email" placeholder="email" onChange={updateEmail} /> &nbsp;
+      <input
+        type="password"
+        placeholder="password"
+        onChange={updatePassword}
+        onKeyPress={e => {
+          if (e.key == 'Enter') {
+            login();
+          }
+        }}
+      />{' '}
+      &nbsp;
+      <button className="btn btn-secondary" onClick={login}>
+        Login
+      </button>
+    </div>
+  );
 
   return (
-    <div className="row my-2">
-      <div className="col-6">
+    <div className="mb-2">
+      <div>
         <h1>My Homepage</h1>
       </div>
-      <div className="col-6">{session_info}</div>
+      <div>{session_info}</div>
     </div>
   );
 }
