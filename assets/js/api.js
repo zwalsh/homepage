@@ -13,6 +13,13 @@ class Server {
     });
   }
 
+  setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+    var expires = 'expires=' + d.toUTCString();
+    document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
+  }
+
   create_session(email, password) {
     return this.send_post(
       '/api/authorize',
@@ -21,7 +28,8 @@ class Server {
         password
       },
       resp => {
-        // todo stick session into a cookie
+        this.setCookie('homepage-user-session', JSON.stringify(resp.data), 7);
+
         channel.init_channel(resp.data);
       },
       (request, _status, _error) => {

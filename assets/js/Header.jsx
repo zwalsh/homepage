@@ -1,12 +1,22 @@
 import React from 'react';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
+import { withCookies } from 'react-cookie';
 import { connect } from 'react-redux';
 import api from './api';
+import channel from './channel';
 
 function Header(props) {
-  let { session, dispatch } = props;
+  let { session, dispatch, cookies } = props;
   let session_info, email, password;
+
+  if (!session) {
+    let sessionObj = cookies.get('homepage-user-session');
+
+    if (sessionObj) {
+      channel.init_channel(sessionObj);
+    }
+  }
 
   let now = new Date().getHours();
 
@@ -82,4 +92,4 @@ function state2props(state) {
   return { session: state.session };
 }
 
-export default connect(state2props)(Header);
+export default connect(state2props)(withCookies(Header));

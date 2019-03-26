@@ -9,31 +9,15 @@ import Header from './Header';
 import Background from './Background';
 
 export default function root_init(node, store) {
-  // todo - join session with cookie here probably
-
   ReactDOM.render(
-    <Provider store={store}>
-      <Root />
-    </Provider>,
+    <CookiesProvider>
+      <Provider store={store}>
+        <Router>
+          <Background />
+          <Header />
+        </Router>
+      </Provider>
+    </CookiesProvider>,
     node
   );
-}
-
-class Root extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div>
-        <CookiesProvider>
-          <Router>
-            <Background />
-            <Header />
-          </Router>
-        </CookiesProvider>
-      </div>
-    );
-  }
 }
