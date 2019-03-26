@@ -34,6 +34,72 @@ html {
   z-index: -1;
 }
 
+.clock {
+  width: 15rem;
+  height: 15rem;
+  background-color: white;
+  border-radius: 50%;
+  margin: 50px auto;
+  position: relative;
+  padding: 2rem;
+  box-shadow: inset 0 0 0 6px black;
+}
+
+.clock-face {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform: translateY(-3px);
+  /* account for the height of the clock hands */
+}
+
+.time {
+  top: 36px;
+  left: calc(50% - 90px);
+  transition: visibility 0.5s, opacity 0.5s;
+  position: absolute;
+  width: 180px;
+  text-align: center;
+  visibility: hidden;
+  opacity: 0;
+  font-size: 25px;
+  z-index: 200;
+  font-family: monospace;
+}
+
+.clock-face:hover .time {
+  visibility: visible;
+  opacity: 1;
+}
+
+.hand {
+  width: 50%;
+  height: 6px;
+  background: black;
+  position: absolute;
+  top: 50%;
+  transform-origin: 100%;
+  transform: rotate(90deg);
+  transition: all 0.5s;
+}
+
+.second-hand {
+  height: 3px;
+}
+
+.hour-hand {
+  width: 66px;
+  left: 22px;
+}
+
+.label {
+  bottom: -25px;
+  text-align: center;
+  position: absolute;
+  width: 80px;
+  left: calc(50% - 40px);
+}
+
 @keyframes fadein {
   from {
     opacity: 0;

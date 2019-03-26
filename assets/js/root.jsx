@@ -7,6 +7,7 @@ import { CookiesProvider } from 'react-cookie';
 
 import Header from './Header';
 import Background from './Background';
+import Clock from './Clock';
 
 export default function root_init(node, store) {
   ReactDOM.render(
@@ -15,6 +16,7 @@ export default function root_init(node, store) {
         <Router>
           <Background />
           <Header />
+          <Clock />
         </Router>
       </Provider>
     </CookiesProvider>,

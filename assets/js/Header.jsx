@@ -24,7 +24,7 @@ function Header(props) {
 
   if (now < 12) {
     greeting = 'Morning';
-  } else if (now >= 12 && now < 18) {
+  } else if (now >= 12 && now < 17) {
     greeting = 'Afternoon';
   } else {
     greeting = 'Evening';
