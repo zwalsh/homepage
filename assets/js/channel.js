@@ -30,6 +30,7 @@ class ChannelWrapper {
               latitude: latitude.toString(),
               longitude: longitude.toString()
             });
+            // channel.push('spotify');
           });
         }
       });
@@ -47,6 +48,9 @@ class ChannelWrapper {
         // });
         console.log(resp);
       });
+      // channel.on('spotify', resp => {
+      //   console.log(resp);
+      // });
     });
   }
 }

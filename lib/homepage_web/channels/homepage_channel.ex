@@ -29,8 +29,12 @@ defmodule HomepageWeb.HomepageChannel do
   end
 
   def handle_in("coords", payload, socket) do
-    IO.inspect(payload)
     push(socket, "forecast", %{forecast: Homepage.Weather.get_forecast(payload["latitude"], payload["longitude"])})
+    {:reply, {:ok, payload}, socket}
+  end
+
+  def handle_in("spotify", payload, socket) do
+    push(socket, "spotify", %{spotify: Homepage.Spotify.authorize()})
     {:reply, {:ok, payload}, socket}
   end
 
