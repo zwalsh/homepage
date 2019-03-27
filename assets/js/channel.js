@@ -26,7 +26,10 @@ class ChannelWrapper {
             let longitude = position.coords.longitude;
             console.log(latitude, longitude);
             // TODO: set up backend to listen for this
-            // channel.push('coords', { latitude, longitude });
+            channel.push('coords', {
+              latitude: latitude.toString(),
+              longitude: longitude.toString()
+            });
           });
         }
       });
@@ -35,6 +38,13 @@ class ChannelWrapper {
           type: 'NEW_BG_IMG',
           data: resp.url
         });
+        console.log(resp);
+      });
+      channel.on('forecast', resp => {
+        // store.dispatch({
+        //   type: 'NEW_BG_IMG',
+        //   data: resp.url
+        // });
         console.log(resp);
       });
     });
