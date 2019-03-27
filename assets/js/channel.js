@@ -20,6 +20,15 @@ class ChannelWrapper {
       let channel = socket.channel('homepage:' + session.user_id, {});
       channel.join().receive('ok', resp => {
         console.log(resp);
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(position => {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+            console.log(latitude, longitude);
+            // TODO: set up backend to listen for this
+            // channel.push('coords', { latitude, longitude });
+          });
+        }
       });
       channel.on('bg_img', resp => {
         store.dispatch({
