@@ -17,6 +17,7 @@ export default function root_init(node, store) {
           <Background />
           <Header />
           <Clock />
+          <a href="/authorize">Auth Spotify</a>
         </Router>
       </Provider>
     </CookiesProvider>,
