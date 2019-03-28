@@ -1,0 +1,22 @@
+use Mix.Config
+
+config :spotify_ex, user_id: "acp9191",
+                    scopes: ["user-top-read", 
+                             "user-read-recently-played", 
+                             "user-library-modify", 
+                             "playlist-read-private", 
+                             "user-read-email", 
+                             "playlist-modify-public", 
+                             "playlist-modify-private", 
+                             "user-library-read", 
+                             "playlist-read-collaborative", 
+                             "user-read-birthdate", 
+                             "user-read-playback-state", 
+                             "user-read-private", 
+                             "app-remote-control", 
+                             "user-modify-playback-state", 
+                             "user-follow-read", 
+                             "user-read-currently-playing", 
+                             "user-follow-modify", 
+                             "streaming"],
+                    callback_url: "http://localhost:4000/callback"
