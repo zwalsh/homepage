@@ -23,11 +23,13 @@ defmodule Homepage.MBTA do
 # }
 # r[longitude]=-71.1001725&filter[latitude]=42.3319226"
   # lat/long -> [Prediction, ...]
-  def get_next_trains(latitude \\ 42.3319226, longitude \\ -71.1001725) do
+  def get_next_trains(latitude \\ "42.3319226", longitude \\ "-71.1001725") do
+    {latitude, _} = Float.parse(latitude)
+    {longitude, _} = Float.parse(longitude)
     preds = get_predictions(latitude, longitude)
     stops = get_stops(latitude, longitude)
     routes = get_routes()
-    preds = preds
+    preds
     |> Enum.filter(&(routes[&1.route_id].description == "Rapid Transit"))
     |> Enum.map(&(Map.put(&1, :route, routes[&1.route_id])))
     |> Enum.map(&(Map.put(&1, :stop, stops[&1.stop_id])))

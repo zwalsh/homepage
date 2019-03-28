@@ -48,6 +48,9 @@ class ChannelWrapper {
         // });
         console.log(resp);
       });
+      channel.on('predictions', resp => {
+        console.log(resp);
+      });
       // channel.on('spotify', resp => {
       //   console.log(resp);
       // });
