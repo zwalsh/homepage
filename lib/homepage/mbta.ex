@@ -41,6 +41,7 @@ defmodule Homepage.MBTA do
 
   # from stackoverflow: calculate distance between two lat/long points,
   # user: Alexander Volkov, Salvador Dali
+  # https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
   def distance_lat_long(lat1, lon1, lat2, lon2) do
     p = 0.017453292519943295 # Pi/180
     a = 0.5 - :math.cos((lat2 - lat1) * p)/2 + :math.cos(lat1 * p) * :math.cos(lat2 * p) * (1 - :math.cos((lon2 - lon1) * p)) / 2
