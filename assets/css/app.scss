@@ -100,6 +100,10 @@ html {
   left: calc(50% - 40px);
 }
 
+.vignette-shadow {
+  box-shadow: inset 0 0 100px black;
+}
+
 @keyframes fadein {
   from {
     opacity: 0;
