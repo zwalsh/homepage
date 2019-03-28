@@ -20,6 +20,19 @@ class ChannelWrapper {
       let channel = socket.channel('homepage:' + session.user_id, {});
       channel.join().receive('ok', resp => {
         console.log(resp);
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(position => {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+            console.log(latitude, longitude);
+            // TODO: set up backend to listen for this
+            channel.push('coords', {
+              latitude: latitude.toString(),
+              longitude: longitude.toString()
+            });
+            // channel.push('spotify');
+          });
+        }
       });
       channel.on('bg_img', resp => {
         store.dispatch({
@@ -28,6 +41,19 @@ class ChannelWrapper {
         });
         console.log(resp);
       });
+      channel.on('forecast', resp => {
+        // store.dispatch({
+        //   type: 'NEW_BG_IMG',
+        //   data: resp.url
+        // });
+        console.log(resp);
+      });
+      channel.on('predictions', resp => {
+        console.log(resp);
+      });
+      // channel.on('spotify', resp => {
+      //   console.log(resp);
+      // });
     });
   }
 }

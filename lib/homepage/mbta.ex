@@ -23,7 +23,9 @@ defmodule Homepage.MBTA do
 # }
 # r[longitude]=-71.1001725&filter[latitude]=42.3319226"
   # lat/long -> [Prediction, ...]
-  def get_next_trains(latitude \\ 42.3319226, longitude \\ -71.1001725) do
+  def get_next_trains(latitude \\ "42.3319226", longitude \\ "-71.1001725") do
+    {latitude, _} = Float.parse(latitude)
+    {longitude, _} = Float.parse(longitude)
     preds = get_predictions(latitude, longitude)
     stops = get_stops(latitude, longitude)
     routes = get_routes()
@@ -31,7 +33,27 @@ defmodule Homepage.MBTA do
     |> Enum.filter(&(routes[&1.route_id].description == "Rapid Transit"))
     |> Enum.map(&(Map.put(&1, :route, routes[&1.route_id])))
     |> Enum.map(&(Map.put(&1, :stop, stops[&1.stop_id])))
-    |> Enum.sort(&(first_closer(&1, &2, latitude, longitude)))
+    |> bucket_preds  # bucket by stop, direction
+    |> Enum.map(&(two_soonest(&1))) # take the next two arrivals at each stop/dir
+    |> sort_closest(latitude, longitude) # sort the buckets by distance to stop
+  end
+
+  def two_soonest(preds) do
+    Enum.sort(preds, &(first_time_sooner(&1.arrival, &2.arrival)))
+    |> Enum.take(2)
+  end
+
+  def first_time_sooner(t1, t2) do
+    DateTime.from_iso8601(t1) <= DateTime.from_iso8601(t2)
+  end
+
+  def bucket_preds(preds) do
+    Enum.group_by(preds, &({&1.stop.id, &1.direction}), &(&1))
+    |> Map.values()
+  end
+
+  def sort_closest(bucketed_preds, lat, lon) do
+    Enum.sort(bucketed_preds, &(first_closer(hd(&1), hd(&2), lat, lon)))
   end
 
   def first_closer(p1, p2, lat, long) do
