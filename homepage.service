@@ -1,0 +1,16 @@
+[Unit]
+Description=Homepage
+
+[Service]
+Type=simple
+User=homepage
+Group=homepage
+Restart=on-failure
+Environment=MIX_ENV=prod "PORT=4797"
+Environment=LANG=en_US.UTF-8
+
+WorkingDirectory=/home/homepage/homepage
+ExecStart=/home/homepage/homepage/start.sh
+
+[Install]
+WantedBy=multi-user.target
