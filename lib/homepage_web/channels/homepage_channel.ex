@@ -30,6 +30,7 @@ defmodule HomepageWeb.HomepageChannel do
 
   def handle_in("coords", payload, socket) do
     push(socket, "forecast", %{forecast: Homepage.Weather.get_forecast(payload["latitude"], payload["longitude"])})
+    push(socket, "predictions", %{predictions: Homepage.MBTA.get_next_trains(payload["latitude"], payload["longitude"])})
     {:reply, {:ok, payload}, socket}
   end
 
