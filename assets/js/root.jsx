@@ -8,6 +8,7 @@ import { CookiesProvider } from 'react-cookie';
 import Header from './Header';
 import Background from './Background';
 import Clock from './Clock';
+import Spotify from './Spotify';
 
 export default function root_init(node, store) {
   ReactDOM.render(
@@ -18,6 +19,7 @@ export default function root_init(node, store) {
           <Header />
           <Clock />
           <a href="/authorize">Auth Spotify</a>
+          <Spotify />
         </Router>
       </Provider>
     </CookiesProvider>,

@@ -39,6 +39,20 @@ class Server {
       }
     );
   }
+
+  get_music() {
+    return $.ajax('/api/tracks', {
+      method: 'get',
+      dataType: 'json',
+      contentType: 'application/json; charset=UTF-8',
+      success: resp => {
+        store.dispatch({
+          type: 'NEW_RECS',
+          data: resp.rec
+        });
+      }
+    });
+  }
 }
 
 export default new Server();

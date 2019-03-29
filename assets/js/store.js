@@ -28,10 +28,28 @@ function bg_img(state = null, action) {
   }
 }
 
+function weather(state = null, action) {
+  switch (action.type) {
+    case 'NEW_WEATHER':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
+function recs(state = [], action) {
+  switch (action.type) {
+    case 'NEW_RECS':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
 function root_reducer(state0, action) {
   // console.log('reducer', state0, action);
 
-  let reducer = combineReducers({ user, session, bg_img });
+  let reducer = combineReducers({ user, session, bg_img, weather, recs });
 
   let state1 = reducer(state0, action);
 

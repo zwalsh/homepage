@@ -1,5 +1,6 @@
 import store from './store';
 import { Socket } from 'phoenix';
+import api from './api';
 
 class ChannelWrapper {
   init_channel(session) {
@@ -25,12 +26,10 @@ class ChannelWrapper {
             let latitude = position.coords.latitude;
             let longitude = position.coords.longitude;
             console.log(latitude, longitude);
-            // TODO: set up backend to listen for this
             channel.push('coords', {
               latitude: latitude.toString(),
               longitude: longitude.toString()
             });
-            // channel.push('spotify');
           });
         }
       });
@@ -42,28 +41,21 @@ class ChannelWrapper {
         console.log(resp);
       });
       channel.on('forecast', resp => {
-        // store.dispatch({
-        //   type: 'NEW_BG_IMG',
-        //   data: resp.url
-        // });
+        store.dispatch({
+          type: 'NEW_WEATHER',
+          data: resp.forecast
+        });
         console.log(resp);
       });
       channel.on('predictions', resp => {
         console.log(resp);
       });
-      // channel.on('spotify', resp => {
-      //   console.log(resp);
-      // });
+
+      api.get_music().then(resp => {
+        console.log(resp);
+      });
     });
   }
 }
-
-// export function create_channel(session) {
-//   singleton = new ChannelWrapper(session);
-// }
-//
-// export default function channel_singleton() {
-//   return singleton;
-// }
 
 export default new ChannelWrapper();
