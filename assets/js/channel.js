@@ -50,6 +50,13 @@ class ChannelWrapper {
       channel.on('predictions', resp => {
         console.log(resp);
       });
+      channel.on('quote', resp => {
+        store.dispatch({
+          type: 'NEW_QUOTE',
+          data: resp.quote
+        });
+        console.log(resp);
+      });
 
       api.get_music().then(resp => {
         console.log(resp);

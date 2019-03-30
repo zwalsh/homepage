@@ -1,14 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import api from './api';
-import channel from './channel';
 
 function Header(props) {
   let { recs } = props;
-
-  // console.log(recs[0].id);
 
   return recs.length > 0 ? (
     <iframe

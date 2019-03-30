@@ -28,7 +28,7 @@ function bg_img(state = null, action) {
   }
 }
 
-function weather(state = null, action) {
+function forecast(state = null, action) {
   switch (action.type) {
     case 'NEW_WEATHER':
       return action.data;
@@ -46,10 +46,26 @@ function recs(state = [], action) {
   }
 }
 
+function quote(state = null, action) {
+  switch (action.type) {
+    case 'NEW_QUOTE':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
 function root_reducer(state0, action) {
   // console.log('reducer', state0, action);
 
-  let reducer = combineReducers({ user, session, bg_img, weather, recs });
+  let reducer = combineReducers({
+    user,
+    session,
+    bg_img,
+    forecast,
+    recs,
+    quote
+  });
 
   let state1 = reducer(state0, action);
 

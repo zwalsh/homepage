@@ -9,6 +9,8 @@ import Header from './Header';
 import Background from './Background';
 import Clock from './Clock';
 import Spotify from './Spotify';
+import Quote from './Quote';
+import Weather from './Weather';
 
 export default function root_init(node, store) {
   ReactDOM.render(
@@ -17,6 +19,8 @@ export default function root_init(node, store) {
         <Router>
           <Background />
           <Header />
+          <Weather />
+          <Quote />
           <Clock />
           <a href="/authorize">Auth Spotify</a>
           <Spotify />

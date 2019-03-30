@@ -25,12 +25,13 @@ defmodule HomepageWeb.HomepageChannel do
 
   def handle_info(:after_join, socket) do
     push(socket, "bg_img", %{url: Homepage.BackgroundImage.get_image_url()})
+    push(socket, "quote", %{quote: Homepage.Quote.get_quote()})
     {:noreply, socket}
   end
 
   def handle_in("coords", payload, socket) do
     push(socket, "forecast", %{forecast: Homepage.Weather.get_forecast(payload["latitude"], payload["longitude"])})
-    push(socket, "predictions", %{predictions: Homepage.MBTA.get_next_trains(payload["latitude"], payload["longitude"])})
+    # push(socket, "predictions", %{predictions: Homepage.MBTA.get_next_trains(payload["latitude"], payload["longitude"])})
     {:reply, {:ok, payload}, socket}
   end
 

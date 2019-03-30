@@ -118,6 +118,27 @@ a {
   margin: 10px auto;
 }
 
+.quote-text {
+  font-style: italic;
+  font-size: 30px;
+}
+
+.quote-wrapper {
+  margin: 0 auto;
+  max-width: 600px;
+  animation: fadein 2s;
+}
+
+.weather-wrapper {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.weather-icon {
+  height: 35px;
+}
+
 @keyframes fadein {
   from {
     opacity: 0;

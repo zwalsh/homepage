@@ -5,7 +5,7 @@ defmodule HomepageWeb.SpotifyController do
     ids = top_5_ids(conn)
     seed_tracks = Enum.join(ids, ",")
     {:ok, rec} = Spotify.Recommendation.get_recommendations(conn, seed_tracks: seed_tracks)
-    IO.inspect(rec.tracks)
+    # IO.inspect(rec.tracks)
     conn
     |> json(%{rec: rec.tracks})
   end

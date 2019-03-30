@@ -1,6 +1,6 @@
 use Mix.Config
 
-config :spotify_ex, user_id: "acp9191",
+config :spotify_ex, user_id: "",
                     scopes: ["user-top-read", 
                              "user-read-recently-played", 
                              "user-library-modify", 

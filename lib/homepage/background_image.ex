@@ -16,6 +16,7 @@ defmodule Homepage.BackgroundImage do
     height = source["height"]
 
     ratio = width / height
-    (ratio > 1.5) && (ratio < 2.0)
+
+    (ratio >= 1.4) && (ratio < 2.0)
   end
 end
