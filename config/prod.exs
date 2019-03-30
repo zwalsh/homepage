@@ -69,3 +69,9 @@ config :logger, level: :info
 # Finally import the config/prod.secret.exs which should be versioned
 # separately.
 # import_config "prod.secret.exs"
+config :homepage, Homepage.Repo,
+  username: "homepage",
+  password: "password",
+  database: "homepage_dev",
+  hostname: "localhost",
+  pool_size: 10
