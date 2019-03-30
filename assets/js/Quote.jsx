@@ -7,7 +7,7 @@ function Quote(props) {
   return quote ? (
     <div className="quote-wrapper">
       <div className="quote-text">"{quote.quoteText}"</div>
-      <div>- {quote.quoteAuthor}</div>
+      <div>- {quote.quoteAuthor || 'Unknown'}</div>
     </div>
   ) : (
     <span />
