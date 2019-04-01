@@ -2,6 +2,11 @@ defmodule HomepageWeb.SpotifyController do
   use HomepageWeb, :controller
 
   def track(conn, _params) do
+
+    unless Spotify.Authentication.tokens_present?(conn) do
+      conn
+    end
+
     {conn, tracks} = top_5_tracks(conn)
 
     ids = tracks
