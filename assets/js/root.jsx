@@ -7,14 +7,28 @@ import { CookiesProvider } from 'react-cookie';
 
 import PageWrapper from './PageWrapper';
 import Header from './Header';
+import RegisterForm from './RegisterForm';
 
 export default function root_init(node, store) {
   ReactDOM.render(
     <CookiesProvider>
       <Provider store={store}>
         <Router>
-          <Header />
-          <PageWrapper />
+          <Route
+            path="/"
+            exact={true}
+            render={() => (
+              <div>
+                <Header />
+                <PageWrapper />
+              </div>
+            )}
+          />
+          <Route
+            path="/register"
+            exact={true}
+            render={() => <RegisterForm />}
+          />
         </Router>
       </Provider>
     </CookiesProvider>,

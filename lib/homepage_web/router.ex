@@ -19,6 +19,7 @@ defmodule HomepageWeb.Router do
     get "/", PageController, :index
     get "/authorize", OAuthController, :authorize
     get "/callback", OAuthController, :callback
+    get "/register", PageController, :index
   end
 
   # Other scopes may use custom stacks.

@@ -40,6 +40,31 @@ class Server {
     );
   }
 
+  create_user(first, last, email, password, redirect) {
+    return this.send_post(
+      '/api/users',
+      {
+        user: {
+          first,
+          last,
+          email,
+          password
+        }
+      },
+      resp => {
+        this.create_session(email, password);
+
+        redirect();
+      },
+      (request, _status, _error) => {
+        if (request) {
+          console.log(request);
+          alert('Username already taken');
+        }
+      }
+    );
+  }
+
   get_music() {
     return $.ajax('/api/tracks', {
       method: 'get',
