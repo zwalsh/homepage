@@ -41,6 +41,5 @@ npm-debug.log
 # variables.
 /config/*.secret.exs
 
-# TODO: UNCOMMENT THESE
-# /config/secret.exs
-# /config/spotify.exs
+/config/secret.exs
+/config/spotify.exs

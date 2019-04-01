@@ -1,14 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import store from './store';
 
 function Weather(props) {
-  let { forecast } = props;
+  let { forecast, weatherToggle } = props;
 
-  let toggle = 'More';
-
-  // function changeToggle() {
-  //   toggle
-  // }
+  function changeToggle() {
+    let toggle = weatherToggle == 'More' ? 'Less' : 'More';
+    store.dispatch({
+      type: 'NEW_WEATHER_TOGGLE',
+      data: toggle
+    });
+  }
 
   return forecast ? (
     <div className="weather-wrapper">
@@ -17,9 +20,9 @@ function Weather(props) {
         <span>{forecast.current.condition.text}</span> &nbsp;
         <img className="weather-icon" src={forecast.current.condition.icon} />
       </div>
-      <div>
+      <div onClick={changeToggle}>
         <a href="#weather" data-toggle="collapse">
-          {toggle}
+          {weatherToggle}
         </a>
       </div>
       <div id="weather" className="collapse">
@@ -30,6 +33,10 @@ function Weather(props) {
         </div>
         <div> Sunrise: {forecast.forecast.forecastday[0].astro.sunrise}</div>
         <div> Sunset: {forecast.forecast.forecastday[0].astro.sunset}</div>
+        <div>
+          Wind: {forecast.current.wind_mph} mph {forecast.current.wind_dir}
+        </div>
+        <div>Precip: {forecast.current.precip_in}"</div>
       </div>
     </div>
   ) : (
@@ -38,7 +45,7 @@ function Weather(props) {
 }
 
 function state2props(state) {
-  return { forecast: state.forecast };
+  return { forecast: state.forecast, weatherToggle: state.weatherToggle };
 }
 
 export default connect(state2props)(Weather);

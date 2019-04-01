@@ -29,5 +29,5 @@ config :phoenix, :json_library, Jason
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
 
-import_config "secret.exs"
+import_config "common.secret.exs"
 import_config "spotify.exs"

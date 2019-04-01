@@ -2,7 +2,7 @@ defmodule HomepageWeb.SpotifyController do
   use HomepageWeb, :controller
 
   def track(conn, _params) do
-    tracks = top_5_tracks(conn)
+    {conn, tracks} = top_5_tracks(conn)
 
     ids = tracks
     |> Enum.map(&(&1.id))
@@ -14,10 +14,13 @@ defmodule HomepageWeb.SpotifyController do
   end
 
   def top_5_tracks(conn) do
-    {:ok, paging} = Spotify.Personalization.top_tracks(conn, time_range: "short_term")
-    tracks = paging.items
-
-    Enum.take(tracks, 5)
+    with {:ok, paging = %Paging{items: items}} <- Spotify.Personalization.top_tracks(conn, time_range: "short_term") do
+      tracks = items
+      {conn, Enum.take(tracks, 5)}
+    else
+      {:ok, error} -> conn = HomepageWeb.OAuthController.refresh(conn)
+      top_5_tracks(conn)
+    end    
   end
 end
 

@@ -10,4 +10,10 @@ defmodule HomepageWeb.OAuthController do
      conn
      |> redirect(to: "/")
    end
+
+   def refresh(conn) do
+      {:ok, conn} = Spotify.Authentication.refresh(conn)
+      conn
+   end
+
  end

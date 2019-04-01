@@ -67,9 +67,4 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
-config :homepage, Homepage.Repo,
-  username: "homepage",
-  password: "password",
-  database: "homepage_dev",
-  hostname: "localhost",
-  pool_size: 10
+# import_config "common.secret.exs"
