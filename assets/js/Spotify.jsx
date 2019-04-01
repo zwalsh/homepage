@@ -5,16 +5,31 @@ import { connect } from 'react-redux';
 function Header(props) {
   let { recs } = props;
 
-  return recs.length > 0 ? (
-    <iframe
-      className="player"
-      src={`https://open.spotify.com/embed/track/${recs[0].id}`}
-      width="300"
-      height="80"
-      frameBorder="0"
-      allowtransparency="true"
-      allow="encrypted-media"
-    />
+  let seeds = [];
+
+  if (recs) {
+    _.map(recs.tracks, track => {
+      seeds.push(
+        <div key={track.id}>
+          {track.name} by {track.artists[0].name}
+        </div>
+      );
+    });
+  }
+
+  return recs ? (
+    <span className="player">
+      <iframe
+        src={`https://open.spotify.com/embed/track/${recs.rec.id}`}
+        width="300"
+        height="80"
+        frameBorder="0"
+        allowtransparency="true"
+        allow="encrypted-media"
+      />
+      <div>Based On:</div>
+      {seeds}
+    </span>
   ) : (
     <span />
   );

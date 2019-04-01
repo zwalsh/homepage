@@ -2,19 +2,22 @@ defmodule HomepageWeb.SpotifyController do
   use HomepageWeb, :controller
 
   def track(conn, _params) do
-    ids = top_5_ids(conn)
+    tracks = top_5_tracks(conn)
+
+    ids = tracks
+    |> Enum.map(&(&1.id))
+
     seed_tracks = Enum.join(ids, ",")
     {:ok, rec} = Spotify.Recommendation.get_recommendations(conn, seed_tracks: seed_tracks)
-    # IO.inspect(rec.tracks)
     conn
-    |> json(%{rec: rec.tracks})
+    |> json(%{rec: hd(rec.tracks), tracks: tracks})
   end
 
-  def top_5_ids(conn) do
+  def top_5_tracks(conn) do
     {:ok, paging} = Spotify.Personalization.top_tracks(conn, time_range: "short_term")
     tracks = paging.items
+
     Enum.take(tracks, 5)
-    |> Enum.map(&(&1.id))
   end
 end
 

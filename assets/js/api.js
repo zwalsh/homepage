@@ -48,7 +48,7 @@ class Server {
       success: resp => {
         store.dispatch({
           type: 'NEW_RECS',
-          data: resp.rec
+          data: resp
         });
       }
     });

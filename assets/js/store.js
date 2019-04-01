@@ -37,7 +37,7 @@ function forecast(state = null, action) {
   }
 }
 
-function recs(state = [], action) {
+function recs(state = null, action) {
   switch (action.type) {
     case 'NEW_RECS':
       return action.data;
