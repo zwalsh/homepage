@@ -50,6 +50,13 @@ class Server {
           type: 'NEW_RECS',
           data: resp
         });
+        store.dispatch({
+          type: 'NEW_SPOTIFY_PLAYER',
+          data: {
+            spotifyType: 'track',
+            spotifyId: resp.rec.id
+          }
+        });
       }
     });
   }

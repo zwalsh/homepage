@@ -46,6 +46,15 @@ function recs(state = null, action) {
   }
 }
 
+function spotifyPlayer(state = null, action) {
+  switch (action.type) {
+    case 'NEW_SPOTIFY_PLAYER':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
 function quote(state = null, action) {
   switch (action.type) {
     case 'NEW_QUOTE':
@@ -64,6 +73,7 @@ function root_reducer(state0, action) {
     bg_img,
     forecast,
     recs,
+    spotifyPlayer,
     quote
   });
 

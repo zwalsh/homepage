@@ -1,13 +1,35 @@
 import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import store from './store';
 
 function Header(props) {
-  let { recs } = props;
+  let { recs, spotifyPlayer } = props;
+
+  function changeType(ev) {
+    let newId;
+    let newType = ev.target.value.toLowerCase();
+
+    switch (newType) {
+      case 'track':
+        newId = recs.rec.id;
+        break;
+      case 'album':
+        newId = recs.rec.album.id;
+        break;
+      case 'artist':
+        newId = recs.rec.artists[0].id;
+        break;
+    }
+    store.dispatch({
+      type: 'NEW_SPOTIFY_PLAYER',
+      data: { spotifyType: newType, spotifyId: newId }
+    });
+  }
 
   let seeds = [];
 
-  if (recs) {
+  if (recs && spotifyPlayer) {
     _.map(recs.tracks, track => {
       seeds.push(
         <div key={track.id}>
@@ -17,16 +39,25 @@ function Header(props) {
     });
   }
 
-  return recs ? (
+  return recs && spotifyPlayer ? (
     <span className="player">
       <iframe
-        src={`https://open.spotify.com/embed/track/${recs.rec.id}`}
-        width="300"
-        height="80"
+        src={`https://open.spotify.com/embed/${spotifyPlayer.spotifyType}/${
+          spotifyPlayer.spotifyId
+        }`}
+        width="320"
+        height="400"
         frameBorder="0"
         allowtransparency="true"
         allow="encrypted-media"
       />
+      <div>
+        <select onChange={changeType}>
+          <option>Track</option>
+          <option>Album</option>
+          <option>Artist</option>
+        </select>
+      </div>
       <div>Based On:</div>
       {seeds}
     </span>
@@ -36,7 +67,10 @@ function Header(props) {
 }
 
 function state2props(state) {
-  return { recs: state.recs };
+  return {
+    recs: state.recs,
+    spotifyPlayer: state.spotifyPlayer
+  };
 }
 
 export default connect(state2props)(Header);
