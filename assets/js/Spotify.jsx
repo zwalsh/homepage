@@ -32,7 +32,7 @@ function Header(props) {
   if (recs && spotifyPlayer) {
     _.map(recs.tracks, track => {
       seeds.push(
-        <div key={track.id}>
+        <div id="basedOn" className="collapse" key={track.id}>
           {track.name} by {track.artists[0].name}
         </div>
       );
@@ -58,7 +58,11 @@ function Header(props) {
           <option>Artist</option>
         </select>
       </div>
-      <div>Based On:</div>
+      <div>
+        <a href="#basedOn" data-toggle="collapse">
+          Based On:
+        </a>
+      </div>
       {seeds}
     </span>
   ) : (
