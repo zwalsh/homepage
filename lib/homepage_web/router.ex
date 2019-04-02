@@ -17,6 +17,9 @@ defmodule HomepageWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/authorize", OAuthController, :authorize
+    get "/callback", OAuthController, :callback
+    get "/register", PageController, :index
   end
 
   # Other scopes may use custom stacks.
@@ -25,5 +28,6 @@ defmodule HomepageWeb.Router do
 
     resources "/users", UserController, except: [:new, :edit]
     post "/authorize", AuthController, :authorize
+    get "/tracks", SpotifyController, :track
   end
 end

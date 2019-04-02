@@ -20,7 +20,7 @@ defmodule Homepage.MixProject do
   def application do
     [
       mod: {Homepage.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :spotify_ex],
     ]
   end
 
@@ -45,7 +45,8 @@ defmodule Homepage.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:argon2_elixir, "~> 2.0"},
       {:distillery, "~> 2.0"},
-      {:httpoison, "~> 1.5"}
+      {:httpoison, "~> 1.0"},
+      {:spotify_ex, "~> 2.0.9"},
     ]
   end
 

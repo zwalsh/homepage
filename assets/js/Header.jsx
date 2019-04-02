@@ -71,11 +71,15 @@ function Header(props) {
             login();
           }
         }}
-      />{' '}
+      />
       &nbsp;
       <button className="btn btn-secondary" onClick={login}>
         Login
       </button>
+      &nbsp;
+      <Link to={'/register'}>
+        <button className="btn btn-secondary">Register</button>
+      </Link>
     </div>
   );
 

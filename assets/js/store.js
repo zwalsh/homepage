@@ -28,10 +28,64 @@ function bg_img(state = null, action) {
   }
 }
 
+function forecast(state = null, action) {
+  switch (action.type) {
+    case 'NEW_WEATHER':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
+function recs(state = null, action) {
+  switch (action.type) {
+    case 'NEW_RECS':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
+function spotifyPlayer(state = null, action) {
+  switch (action.type) {
+    case 'NEW_SPOTIFY_PLAYER':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
+function quote(state = null, action) {
+  switch (action.type) {
+    case 'NEW_QUOTE':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
+function weatherToggle(state = 'More', action) {
+  switch (action.type) {
+    case 'NEW_WEATHER_TOGGLE':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
 function root_reducer(state0, action) {
   // console.log('reducer', state0, action);
 
-  let reducer = combineReducers({ user, session, bg_img });
+  let reducer = combineReducers({
+    user,
+    session,
+    bg_img,
+    forecast,
+    recs,
+    spotifyPlayer,
+    quote,
+    weatherToggle
+  });
 
   let state1 = reducer(state0, action);
 

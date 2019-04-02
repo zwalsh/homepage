@@ -25,6 +25,7 @@ defmodule HomepageWeb.HomepageChannel do
 
   def handle_info(:after_join, socket) do
     push(socket, "bg_img", %{url: Homepage.BackgroundImage.get_image_url()})
+    push(socket, "quote", %{quote: Homepage.Quote.get_quote()})
     {:noreply, socket}
   end
 

@@ -39,6 +39,52 @@ class Server {
       }
     );
   }
+
+  create_user(first, last, email, password, redirect) {
+    return this.send_post(
+      '/api/users',
+      {
+        user: {
+          first,
+          last,
+          email,
+          password
+        }
+      },
+      resp => {
+        this.create_session(email, password);
+
+        redirect();
+      },
+      (request, _status, _error) => {
+        if (request) {
+          console.log(request);
+          alert('Username already taken');
+        }
+      }
+    );
+  }
+
+  get_music() {
+    return $.ajax('/api/tracks', {
+      method: 'get',
+      dataType: 'json',
+      contentType: 'application/json; charset=UTF-8',
+      success: resp => {
+        store.dispatch({
+          type: 'NEW_RECS',
+          data: resp
+        });
+        store.dispatch({
+          type: 'NEW_SPOTIFY_PLAYER',
+          data: {
+            spotifyType: 'track',
+            spotifyId: resp.rec.id
+          }
+        });
+      }
+    });
+  }
 }
 
 export default new Server();
