@@ -14,7 +14,7 @@ function Trains(props) {
         Next Trains
       </a>
       <div id="trains" className="collapse">
-        <table>{stops}</table>
+        <table><tbody>{stops}</tbody></table>
       </div>
     </div>
   );
@@ -38,7 +38,7 @@ function Stop(props) {
 
   return (
     <tr>
-      <td style={{ color: `#${color}` }}>{route}</td>{' '}
+      <td style={{ color: `#${color}` }}>{route}</td>
       <td>
         {stop} -> {dest}
       </td>

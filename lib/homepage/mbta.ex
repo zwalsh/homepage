@@ -76,6 +76,12 @@ defmodule Homepage.MBTA do
     now = DateTime.utc_now()
     {:ok, arrival, _} = DateTime.from_iso8601(prediction.arrival)
     diff = DateTime.diff(arrival, now) / 60
+    status = prediction.status
+    status = if diff < 1 and is_nil(status) do
+      "Arriving now"
+    else
+      status
+    end
     %{
       arrival: prediction.arrival,
       departure: prediction.departure,
@@ -84,7 +90,7 @@ defmodule Homepage.MBTA do
       dir: Enum.fetch!(direction_names, direction),
       color: prediction.route.color,
       stop: prediction.stop.name,
-      status: prediction.status,
+      status: status,
       route: prediction.route.id,
     }
   end
