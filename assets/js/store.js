@@ -73,6 +73,15 @@ function weatherToggle(state = 'More', action) {
   }
 }
 
+function predictions(state = [], action) {
+  switch (action.type) {
+    case 'NEW_PREDICTIONS':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
 function root_reducer(state0, action) {
   // console.log('reducer', state0, action);
 
@@ -84,7 +93,8 @@ function root_reducer(state0, action) {
     recs,
     spotifyPlayer,
     quote,
-    weatherToggle
+    weatherToggle,
+    predictions
   });
 
   let state1 = reducer(state0, action);

@@ -21,17 +21,10 @@ class ChannelWrapper {
       let channel = socket.channel('homepage:' + session.user_id, {});
       channel.join().receive('ok', resp => {
         console.log(resp);
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(position => {
-            let latitude = position.coords.latitude;
-            let longitude = position.coords.longitude;
-            console.log(latitude, longitude);
-            channel.push('coords', {
-              latitude: latitude.toString(),
-              longitude: longitude.toString()
-            });
-          });
-        }
+        this.sendCoords(channel);
+        setInterval(() => {
+          this.sendCoords(channel);
+        }, 30000);
       });
       channel.on('bg_img', resp => {
         store.dispatch({
@@ -48,6 +41,10 @@ class ChannelWrapper {
         console.log(resp);
       });
       channel.on('predictions', resp => {
+        store.dispatch({
+          type: 'NEW_PREDICTIONS',
+          data: resp.predictions
+        });
         console.log(resp);
       });
       channel.on('quote', resp => {
@@ -62,6 +59,22 @@ class ChannelWrapper {
         console.log(resp);
       });
     });
+  }
+
+  sendCoords(channel) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        let latitude = position.coords.latitude;
+        let longitude = position.coords.longitude;
+        console.log(latitude, longitude);
+        channel.push('coords', {
+          latitude: latitude.toString(),
+          longitude: longitude.toString()
+        });
+      });
+    } else {
+      console.log("No geolocation");
+    }
   }
 }
 
