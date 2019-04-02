@@ -27,6 +27,7 @@ defmodule HomepageWeb.Router do
     pipe_through :api
 
     resources "/users", UserController, except: [:new, :edit]
+    resources "/tracks", TrackController, except: [:new, :edit]
     post "/authorize", AuthController, :authorize
     get "/tracks", SpotifyController, :track
   end

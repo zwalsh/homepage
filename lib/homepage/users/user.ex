@@ -7,6 +7,7 @@ defmodule Homepage.Users.User do
     field :first, :string
     field :last, :string
     field :password_hash, :string
+    has_many :tracks, Homepage.Tracks.Track
 
     timestamps()
   end

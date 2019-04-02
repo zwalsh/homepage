@@ -66,9 +66,11 @@ class Server {
   }
 
   get_music() {
+    console.log(store.getState().session);
     return $.ajax('/api/tracks', {
       method: 'get',
       dataType: 'json',
+      data: store.getState().session,
       contentType: 'application/json; charset=UTF-8',
       success: resp => {
         store.dispatch({

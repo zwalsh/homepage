@@ -33,8 +33,8 @@ function Header(props) {
     _.map(recs.tracks, track => {
       seeds.push(
         <div key={track.id}>
-          <span className="track-name">{track.name}</span> - &nbsp;
-          {track.artists[0].name}
+          <span className="track-name">{track.title}</span> - &nbsp;
+          {track.artist}
         </div>
       );
     });

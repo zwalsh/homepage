@@ -9,6 +9,7 @@ defmodule HomepageWeb.AuthController do
     with user <- Users.get_user_by_email(email),
           {:ok, user} <- Argon2.check_pass(user, password) do
       conn
+      |> assign(:user_id, user.id)
       |> json(%{
         "data" => %{
           "token" => Phoenix.Token.sign(HomepageWeb.Endpoint, "user_id", user.id),

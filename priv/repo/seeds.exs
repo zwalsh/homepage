@@ -12,6 +12,7 @@
 
 alias Homepage.Repo
 alias Homepage.Users.User
+alias Homepage.Tracks.Track
 
 pass = Argon2.hash_pwd_salt("password")
 
@@ -23,3 +24,6 @@ password_hash: pass})
 
 Repo.insert!(%User{first: "Nat", last: "B", email: "a",
 password_hash: Argon2.hash_pwd_salt("a")})
+
+t1 = %Track{user_id: 3, spotify_id: "2073QOEC8rBtSyTsRyaWiP", title: "I Can Change", artist: "LCD Soundsystem"}
+Repo.insert!(t1)
