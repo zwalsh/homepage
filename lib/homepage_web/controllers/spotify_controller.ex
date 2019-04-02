@@ -9,12 +9,7 @@ defmodule HomepageWeb.SpotifyController do
 
   def track(conn, params) do
     user_id = params["session"]["user_id"]
-    danceability = params["options"]["danceability"]
-    acousticness = params["options"]["acousticness"]
-    energy = params["options"]["energy"]
-    popularity = params["options"]["popularity"]
-
-    IO.inspect(params)
+    options = params["options"]
 
     unless Spotify.Authentication.tokens_present?(conn) do
       conn
@@ -26,21 +21,7 @@ defmodule HomepageWeb.SpotifyController do
     |> Enum.map(&(&1.spotify_id))
 
     seed_tracks = Enum.join(ids, ",")
-    IO.inspect(Spotify.Recommendation.get_recommendations_url(
-      seed_tracks: seed_tracks, 
-      danceability: danceability, 
-      acousticness: acousticness, 
-      energy: energy,
-      popularity: popularity
-    ))
-    {:ok, rec} = Spotify.Recommendation.get_recommendations(
-      conn, 
-      seed_tracks: seed_tracks, 
-      danceability: danceability, 
-      acousticness: acousticness, 
-      energy: energy,
-      popularity: popularity
-    )
+    rec = get_recs(conn, options, seed_tracks)
     %{data: json_tracks} = TrackView.render("index.json", %{tracks: tracks})
     conn
     |> json(%{rec: hd(rec.tracks), tracks: json_tracks})
@@ -67,6 +48,40 @@ defmodule HomepageWeb.SpotifyController do
     else
       {:ok, _error} -> conn = HomepageWeb.OAuthController.refresh(conn)
       fetch_and_store(conn, user_id, num_tracks)
+    end
+  end
+
+  def get_recs(conn, nil, seeds) do
+     get_recs(conn, %{
+       "danceability" => "",
+       "acousticness" => "",
+       "energy" => "",
+       "popularity" => "",
+       }, seeds)
+  end
+
+  def get_recs(conn, options = %{
+    "danceability" => danceability,
+    "acousticness" => acousticness,
+    "energy" => energy,
+    "popularity" => popularity,
+    }, seeds) do
+
+    resp = Spotify.Recommendation.get_recommendations(
+      conn,
+      seed_tracks: seeds,
+      danceability: danceability,
+      acousticness: acousticness,
+      energy: energy,
+      popularity: popularity
+    )
+
+    with {:ok, rec = %Spotify.Recommendation{}} <- resp do
+      rec
+    else
+      {:ok, _error} ->
+        conn = HomepageWeb.OAuthController.refresh(conn)
+        get_recs(conn, options, seeds)
     end
   end
 
