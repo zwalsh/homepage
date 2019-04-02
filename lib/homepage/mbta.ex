@@ -1,5 +1,10 @@
 defmodule Homepage.MBTA do
 
+  def mbta_key() do
+    Application.get_env(:homepage, Homepage.MBTA)[:api_key]
+  end
+
+
 #  Prediction: {
 #     stop: Stop,
 #     route: Route,
@@ -36,11 +41,52 @@ defmodule Homepage.MBTA do
     |> bucket_preds  # bucket by stop, direction
     |> Enum.map(&(two_soonest(&1))) # take the next two arrivals at each stop/dir
     |> sort_closest(latitude, longitude) # sort the buckets by distance to stop
+    |> first_per_route([])
+    |> Enum.map(&(format_resps(&1)))
+  end
+
+  def first_per_route([], routes_included), do: []
+
+  def first_per_route([p1 | predictions], routes_included) do
+    cur_route = hd(p1).route.id
+    cur_stop = hd(p1).stop.name
+    cur_pair = {cur_route, cur_stop}
+    if !Enum.member?(routes_included, cur_pair)
+        and Enum.any?(routes_included, fn {route, stop} -> route == cur_route end) do
+      first_per_route(predictions, routes_included)
+    else
+      [p1 | first_per_route(predictions, [cur_pair | routes_included])]
+    end
   end
 
   def two_soonest(preds) do
     Enum.sort(preds, &(first_time_sooner(&1.arrival, &2.arrival)))
     |> Enum.take(2)
+  end
+
+  def format_resps(predictions) do
+    predictions
+    |> Enum.map(&(format_resp(&1)))
+  end
+
+  def format_resp(prediction) do
+    direction = prediction.direction
+    direction_destinations = prediction.route.direction_destinations
+    direction_names = prediction.route.direction_names
+    now = DateTime.utc_now()
+    {:ok, arrival, _} = DateTime.from_iso8601(prediction.arrival)
+    diff = DateTime.diff(arrival, now) / 60
+    %{
+      arrival: prediction.arrival,
+      departure: prediction.departure,
+      min_to_arrival: diff,
+      dest: Enum.fetch!(direction_destinations, direction),
+      dir: Enum.fetch!(direction_names, direction),
+      color: prediction.route.color,
+      stop: prediction.stop.name,
+      status: prediction.status,
+      route: prediction.route.id,
+    }
   end
 
   def first_time_sooner(t1, t2) do
@@ -72,7 +118,7 @@ defmodule Homepage.MBTA do
 
   def get_predictions(latitude, longitude) do
     url = "https://api-v3.mbta.com/predictions?filter[longitude]=#{longitude}&filter[latitude]=#{latitude}"
-    {:ok, resp} = HTTPoison.get(url)
+    {:ok, resp} = mbta_request(url)
     data = Jason.decode!(resp.body)["data"]
     Enum.map(data, &(json_predict_to_predict(&1)))
   end
@@ -91,7 +137,7 @@ defmodule Homepage.MBTA do
 
   def get_stops(latitude, longitude) do
     url = "https://api-v3.mbta.com/stops?filter[longitude]=#{longitude}&filter[latitude]=#{latitude}"
-    {:ok, resp} = HTTPoison.get(url)
+    {:ok, resp} = mbta_request(url)
     data = Jason.decode!(resp.body)["data"]
     Enum.map(data, &(json_stop_to_stop(&1)))
     |> Enum.into(%{}, &({&1.id, &1}))
@@ -110,7 +156,7 @@ defmodule Homepage.MBTA do
   # todo - cache this in memory (for how long?)
   def get_routes() do
     url = "https://api-v3.mbta.com/routes"
-    {:ok, resp} = HTTPoison.get(url)
+    {:ok, resp} = mbta_request(url)
     data = Jason.decode!(resp.body)["data"]
     Enum.map(data, &(json_route_to_route(&1)))
     |> Enum.into(%{}, &({&1.id, &1}))
@@ -129,6 +175,10 @@ defmodule Homepage.MBTA do
 
   def route_types() do
     Enum.into(get_routes(), MapSet.new(), &(&1.description))
+  end
+
+  def mbta_request(url) do
+    HTTPoison.get(url, [{"x-api-key", "4869e5d4b42446c69f8e9a3a7fe553e4"}])
   end
 
 end

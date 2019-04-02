@@ -6,6 +6,7 @@ import Clock from './Clock';
 import Spotify from './Spotify';
 import Quote from './Quote';
 import Weather from './Weather';
+import Trains from './Trains';
 
 function PageWrapper(props) {
   let { session } = props;
@@ -17,6 +18,7 @@ function PageWrapper(props) {
       <Clock />
       <Quote />
       <Spotify />
+      <Trains />
     </div>
   ) : (
     <span />
