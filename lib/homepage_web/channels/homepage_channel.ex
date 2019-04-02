@@ -1,9 +1,9 @@
 defmodule HomepageWeb.HomepageChannel do
   use HomepageWeb, :channel
 
-  def join("homepage:"<>user_id, payload, socket) do
+  def join("homepage:"<>_user_id, payload, socket) do
     if authorized?(payload) do
-      send(self, :after_join)
+      send(self(), :after_join)
       {:ok, socket}
     else
       {:error, %{reason: "unauthorized"}}
@@ -13,6 +13,12 @@ defmodule HomepageWeb.HomepageChannel do
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client
   def handle_in("ping", payload, socket) do
+    {:reply, {:ok, payload}, socket}
+  end
+
+  def handle_in("coords", payload, socket) do
+    push(socket, "forecast", %{forecast: Homepage.Weather.get_forecast(payload["latitude"], payload["longitude"])})
+    push(socket, "predictions", %{predictions: Homepage.MBTA.get_next_trains(payload["latitude"], payload["longitude"])})
     {:reply, {:ok, payload}, socket}
   end
 
@@ -29,16 +35,7 @@ defmodule HomepageWeb.HomepageChannel do
     {:noreply, socket}
   end
 
-  def handle_in("coords", payload, socket) do
-    push(socket, "forecast", %{forecast: Homepage.Weather.get_forecast(payload["latitude"], payload["longitude"])})
-    push(socket, "predictions", %{predictions: Homepage.MBTA.get_next_trains(payload["latitude"], payload["longitude"])})
-    {:reply, {:ok, payload}, socket}
-  end
-
-  def handle_in("spotify", payload, socket) do
-    push(socket, "spotify", %{spotify: Homepage.Spotify.authorize()})
-    {:reply, {:ok, payload}, socket}
-  end
+  
 
   # Add authorization logic here as required.
   defp authorized?(_) do

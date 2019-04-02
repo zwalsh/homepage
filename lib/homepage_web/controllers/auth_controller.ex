@@ -2,7 +2,6 @@ defmodule HomepageWeb.AuthController do
   use HomepageWeb, :controller
 
   alias Homepage.Users
-  alias Homepage.Users.User
 
   action_fallback HomepageWeb.FallbackController
 

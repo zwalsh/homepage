@@ -45,14 +45,14 @@ defmodule Homepage.MBTA do
     |> Enum.map(&(format_resps(&1)))
   end
 
-  def first_per_route([], routes_included), do: []
+  def first_per_route([], _routes_included), do: []
 
   def first_per_route([p1 | predictions], routes_included) do
     cur_route = hd(p1).route.id
     cur_stop = hd(p1).stop.name
     cur_pair = {cur_route, cur_stop}
     if !Enum.member?(routes_included, cur_pair)
-        and Enum.any?(routes_included, fn {route, stop} -> route == cur_route end) do
+        and Enum.any?(routes_included, fn {route, _stop} -> route == cur_route end) do
       first_per_route(predictions, routes_included)
     else
       [p1 | first_per_route(predictions, [cur_pair | routes_included])]
@@ -178,7 +178,7 @@ defmodule Homepage.MBTA do
   end
 
   def mbta_request(url) do
-    HTTPoison.get(url, [{"x-api-key", "4869e5d4b42446c69f8e9a3a7fe553e4"}])
+    HTTPoison.get(url, [{"x-api-key", mbta_key()}])
   end
 
 end
