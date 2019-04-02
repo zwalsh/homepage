@@ -41,6 +41,8 @@ function recs(state = null, action) {
   switch (action.type) {
     case 'NEW_RECS':
       return action.data;
+    case 'REC_REMOVE':
+      return state;
     default:
       return state;
   }

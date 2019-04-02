@@ -2,9 +2,10 @@ import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import store from './store';
+import api from './api';
 
 function Header(props) {
-  let { recs, spotifyPlayer } = props;
+  let { recs, spotifyPlayer, session } = props;
 
   function changeType(ev) {
     let newId;
@@ -27,6 +28,23 @@ function Header(props) {
     });
   }
 
+  function createSeed() {
+    api.addSeed(
+      session.user_id,
+      recs.rec.id,
+      recs.rec.artists[0].name,
+      recs.rec.name
+    );
+  }
+
+  function removeSeed(ev) {
+    api.remove_seed(ev.target.dataset.id);
+  }
+
+  function refresh() {
+    api.get_music();
+  }
+
   let seeds = [];
 
   if (recs && spotifyPlayer) {
@@ -34,7 +52,16 @@ function Header(props) {
       seeds.push(
         <div key={track.id}>
           <span className="track-name">{track.title}</span> - &nbsp;
-          {track.artist}
+          {track.artist} &nbsp;
+          <span
+            onClick={ev => {
+              removeSeed(ev);
+            }}
+            data-id={track.id}
+            className="remove-seed"
+          >
+            Remove
+          </span>
         </div>
       );
     });
@@ -46,8 +73,8 @@ function Header(props) {
         src={`https://open.spotify.com/embed/${spotifyPlayer.spotifyType}/${
           spotifyPlayer.spotifyId
         }`}
-        width="320"
-        height="400"
+        width="250"
+        height="330"
         frameBorder="0"
         allowtransparency="true"
         allow="encrypted-media"
@@ -58,6 +85,22 @@ function Header(props) {
           <option>Album</option>
           <option>Artist</option>
         </select>
+      </div>
+      <div>
+        <button
+          onClick={() => {
+            createSeed;
+          }}
+        >
+          Add as seed
+        </button>
+        <button
+          onClick={() => {
+            refresh();
+          }}
+        >
+          Refresh
+        </button>
       </div>
       <div>
         <a href="#basedOn" data-toggle="collapse">
@@ -78,7 +121,8 @@ function Header(props) {
 function state2props(state) {
   return {
     recs: state.recs,
-    spotifyPlayer: state.spotifyPlayer
+    spotifyPlayer: state.spotifyPlayer,
+    session: state.session
   };
 }
 

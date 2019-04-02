@@ -167,6 +167,15 @@ td {
   padding-right: 5px;
 }
 
+.remove-seed {
+  cursor: pointer;
+  color: red;
+}
+
+.remove-seed:hover {
+  text-decoration: underline;
+}
+
 @keyframes fadein {
   from {
     opacity: 0;

@@ -66,8 +66,7 @@ class Server {
   }
 
   get_music() {
-    console.log(store.getState().session);
-    return $.ajax('/api/tracks', {
+    return $.ajax('/api/track', {
       method: 'get',
       dataType: 'json',
       data: store.getState().session,
@@ -84,6 +83,28 @@ class Server {
             spotifyId: resp.rec.id
           }
         });
+      }
+    });
+  }
+
+  addSeed(user_id, spotify_id, artist, title) {
+    return this.send_post('/api/tracks', {
+      track: {
+        user_id,
+        spotify_id,
+        artist,
+        title
+      }
+    });
+  }
+
+  remove_seed(id) {
+    return $.ajax('/api/tracks/' + id, {
+      method: 'delete',
+      dataType: 'json',
+      contentType: 'application/json; charset=UTF-8',
+      success: resp => {
+        this.get_music();
       }
     });
   }

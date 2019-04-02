@@ -60,7 +60,7 @@ defmodule Homepage.MBTA do
   end
 
   def two_soonest(preds) do
-    Enum.sort(preds, &(first_time_sooner(&1.arrival, &2.arrival)))
+    Enum.sort(preds, &(first_time_sooner(&1, &2)))
     |> Enum.take(2)
   end
 
@@ -95,7 +95,9 @@ defmodule Homepage.MBTA do
     }
   end
 
-  def first_time_sooner(t1, t2) do
+  def first_time_sooner(pred1, pred2) do
+    t1 = if (pred1.arrival == nil), do: pred1.departure, else: pred1.arrival
+    t2 = if (pred2.arrival == nil), do: pred2.departure, else: pred2.arrival
     DateTime.from_iso8601(t1) <= DateTime.from_iso8601(t2)
   end
 
