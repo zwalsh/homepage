@@ -8,7 +8,10 @@ defmodule HomepageWeb.SpotifyController do
   alias HomepageWeb.TrackView
 
   def track(conn, params) do
-    user_id = params["user_id"]
+    user_id = params["session"]["user_id"]
+    danceability = params["sliderVal"]
+
+    IO.inspect(params)
 
     unless Spotify.Authentication.tokens_present?(conn) do
       conn
@@ -20,7 +23,8 @@ defmodule HomepageWeb.SpotifyController do
     |> Enum.map(&(&1.spotify_id))
 
     seed_tracks = Enum.join(ids, ",")
-    {:ok, rec} = Spotify.Recommendation.get_recommendations(conn, seed_tracks: seed_tracks)
+    IO.inspect(Spotify.Recommendation.get_recommendations_url(seed_tracks: seed_tracks, danceability: danceability))
+    {:ok, rec} = Spotify.Recommendation.get_recommendations(conn, seed_tracks: seed_tracks, danceability: danceability)
     %{data: json_tracks} = TrackView.render("index.json", %{tracks: tracks})
     conn
     |> json(%{rec: hd(rec.tracks), tracks: json_tracks})

@@ -84,6 +84,24 @@ function predictions(state = [], action) {
   }
 }
 
+function sliderVal(state = 0.5, action) {
+  switch (action.type) {
+    case 'NEW_SLIDER_VAL':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
+function checkboxVal(state = false, action) {
+  switch (action.type) {
+    case 'NEW_CHECKBOX_VAL':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
 function root_reducer(state0, action) {
   // console.log('reducer', state0, action);
 
@@ -96,7 +114,9 @@ function root_reducer(state0, action) {
     spotifyPlayer,
     quote,
     weatherToggle,
-    predictions
+    predictions,
+    sliderVal,
+    checkboxVal
   });
 
   let state1 = reducer(state0, action);

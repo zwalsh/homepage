@@ -5,7 +5,7 @@ import store from './store';
 import api from './api';
 
 function Header(props) {
-  let { recs, spotifyPlayer, session } = props;
+  let { recs, spotifyPlayer, session, sliderVal, checkboxVal } = props;
 
   function changeType(ev) {
     let newId;
@@ -42,7 +42,21 @@ function Header(props) {
   }
 
   function refresh() {
-    api.get_music();
+    api.get_music(checkboxVal ? sliderVal : null);
+  }
+
+  function changeSliderVal(ev) {
+    store.dispatch({
+      type: 'NEW_SLIDER_VAL',
+      data: ev.target.value
+    });
+  }
+
+  function changeCheckbox(ev) {
+    store.dispatch({
+      type: 'NEW_CHECKBOX_VAL',
+      data: ev.target.checked
+    });
   }
 
   let seeds = [];
@@ -108,6 +122,24 @@ function Header(props) {
         </a>
         <div id="basedOn" className="collapse">
           {seeds}
+          <span>
+            Danceability: &nbsp;
+            <input
+              type="checkbox"
+              value={checkboxVal}
+              onChange={changeCheckbox}
+            />
+            &nbsp;
+            <input
+              id="typeinp"
+              type="range"
+              min="0"
+              max="1"
+              value={sliderVal}
+              onChange={changeSliderVal}
+              step="0.05"
+            />
+          </span>
         </div>
       </div>
     </span>
@@ -122,7 +154,9 @@ function state2props(state) {
   return {
     recs: state.recs,
     spotifyPlayer: state.spotifyPlayer,
-    session: state.session
+    session: state.session,
+    sliderVal: state.sliderVal,
+    checkboxVal: state.checkboxVal
   };
 }
 
