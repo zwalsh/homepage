@@ -26,17 +26,41 @@ function Weather(props) {
         </a>
       </div>
       <div id="weather" className="collapse">
-        <div> High: {forecast.forecast.forecastday[0].day.maxtemp_f} °F</div>
-        <div> Low: {forecast.forecast.forecastday[0].day.mintemp_f} °F</div>
-        <div>
-          Avg Humidity: {forecast.forecast.forecastday[0].day.avghumidity}
-        </div>
-        <div> Sunrise: {forecast.forecast.forecastday[0].astro.sunrise}</div>
-        <div> Sunset: {forecast.forecast.forecastday[0].astro.sunset}</div>
-        <div>
-          Wind: {forecast.current.wind_mph} mph {forecast.current.wind_dir}
-        </div>
-        <div>Precip: {forecast.current.precip_in}"</div>
+        <table>
+          <tbody>
+            <tr>
+              <td>High</td>
+              <td>{forecast.forecast.forecastday[0].day.maxtemp_f} °F</td>
+            </tr>
+            <tr>
+              <td>Low</td>
+              <td>{forecast.forecast.forecastday[0].day.mintemp_f} °F</td>
+            </tr>
+            <tr>
+              <td>Avg Humidity</td>
+              <td>{forecast.forecast.forecastday[0].day.avghumidity}</td>
+            </tr>
+            <tr>
+              <td>Sunrise</td>
+              <td>{forecast.forecast.forecastday[0].astro.sunrise}</td>
+            </tr>
+            <tr>
+              <td>Sunset</td>
+              <td>{forecast.forecast.forecastday[0].astro.sunset}</td>
+            </tr>
+            <tr>
+              <td>Wind</td>
+              <td>
+                {forecast.current.wind_mph} mph {forecast.current.wind_dir}
+              </td>
+              <td />
+            </tr>
+            <tr>
+              <td>Precip</td>
+              <td>{forecast.current.precip_in}"</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   ) : (
