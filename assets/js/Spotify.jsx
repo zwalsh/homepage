@@ -5,7 +5,19 @@ import store from './store';
 import api from './api';
 
 function Header(props) {
-  let { recs, spotifyPlayer, session, sliderVal, checkboxVal } = props;
+  let {
+    recs,
+    spotifyPlayer,
+    session,
+    danceabilitySliderVal,
+    danceabilityCheckboxVal,
+    acousticnessSliderVal,
+    acousticnessCheckboxVal,
+    energySliderVal,
+    energyCheckboxVal,
+    popularitySliderVal,
+    popularityCheckboxVal
+  } = props;
 
   function changeType(ev) {
     let newId;
@@ -42,19 +54,66 @@ function Header(props) {
   }
 
   function refresh() {
-    api.get_music(checkboxVal ? sliderVal : null);
+    api.get_music({
+      danceability: danceabilityCheckboxVal ? danceabilitySliderVal : null,
+      acousticness: acousticnessCheckboxVal ? acousticnessSliderVal : null,
+      energy: energyCheckboxVal ? energySliderVal : null,
+      popularity: popularityCheckboxVal ? popularitySliderVal : null
+    });
   }
 
-  function changeSliderVal(ev) {
+  function changeDanceabilitySliderVal(ev) {
     store.dispatch({
-      type: 'NEW_SLIDER_VAL',
+      type: 'NEW_DANCEABILITY_SLIDER_VAL',
       data: ev.target.value
     });
   }
 
-  function changeCheckbox(ev) {
+  function changeDanceabilityCheckboxVal(ev) {
     store.dispatch({
-      type: 'NEW_CHECKBOX_VAL',
+      type: 'NEW_DANCEABILITY_CHECKBOX_VAL',
+      data: ev.target.checked
+    });
+  }
+
+  function changeAcousticnessSliderVal(ev) {
+    store.dispatch({
+      type: 'NEW_ACOUSTICNESS_SLIDER_VAL',
+      data: ev.target.value
+    });
+  }
+
+  function changeAcousticnessCheckboxVal(ev) {
+    store.dispatch({
+      type: 'NEW_ACOUSTICNESS_CHECKBOX_VAL',
+      data: ev.target.checked
+    });
+  }
+
+  function changeEnergySliderVal(ev) {
+    store.dispatch({
+      type: 'NEW_ENERGY_SLIDER_VAL',
+      data: ev.target.value
+    });
+  }
+
+  function changeEnergyCheckboxVal(ev) {
+    store.dispatch({
+      type: 'NEW_ENERGY_CHECKBOX_VAL',
+      data: ev.target.checked
+    });
+  }
+
+  function changePopularitySliderVal(ev) {
+    store.dispatch({
+      type: 'NEW_POPULARITY_SLIDER_VAL',
+      data: ev.target.value
+    });
+  }
+
+  function changePopularityCheckboxVal(ev) {
+    store.dispatch({
+      type: 'NEW_POPULARITY_CHECKBOX_VAL',
       data: ev.target.checked
     });
   }
@@ -64,10 +123,11 @@ function Header(props) {
   if (recs && spotifyPlayer) {
     _.map(recs.tracks, track => {
       seeds.push(
-        <div key={track.id}>
-          <span className="track-name">{track.title}</span> - &nbsp;
-          {track.artist} &nbsp;
-          <span
+        <tr key={track.id}>
+          <td className="track-name">{track.title}</td>
+          <td>-</td>
+          <td>{track.artist}</td>
+          <td
             onClick={ev => {
               removeSeed(ev);
             }}
@@ -75,11 +135,107 @@ function Header(props) {
             className="remove-seed"
           >
             Remove
-          </span>
-        </div>
+          </td>
+        </tr>
       );
     });
   }
+
+  let danceability = (
+    <tr>
+      <td>Danceability:</td>
+      <td>
+        <input
+          type="checkbox"
+          value={danceabilityCheckboxVal}
+          onChange={changeDanceabilityCheckboxVal}
+        />
+      </td>
+      <td>
+        <input
+          id="typeinp"
+          type="range"
+          min={0}
+          max={1}
+          value={danceabilitySliderVal}
+          onChange={changeDanceabilitySliderVal}
+          step={0.05}
+        />
+      </td>
+    </tr>
+  );
+
+  let acousticness = (
+    <tr>
+      <td>Acousticness:</td>
+      <td>
+        <input
+          type="checkbox"
+          value={acousticnessCheckboxVal}
+          onChange={changeAcousticnessCheckboxVal}
+        />
+      </td>
+      <td>
+        <input
+          id="typeinp"
+          type="range"
+          min={0}
+          max={1}
+          value={acousticnessSliderVal}
+          onChange={changeAcousticnessSliderVal}
+          step={0.05}
+        />
+      </td>
+    </tr>
+  );
+
+  let energy = (
+    <tr>
+      <td>Energy:</td>
+      <td>
+        <input
+          type="checkbox"
+          value={energyCheckboxVal}
+          onChange={changeEnergyCheckboxVal}
+        />
+      </td>
+      <td>
+        <input
+          id="typeinp"
+          type="range"
+          min={0}
+          max={1}
+          value={energySliderVal}
+          onChange={changeEnergySliderVal}
+          step={0.05}
+        />
+      </td>
+    </tr>
+  );
+
+  let popularity = (
+    <tr>
+      <td>Popularity:</td>
+      <td>
+        <input
+          type="checkbox"
+          value={popularityCheckboxVal}
+          onChange={changePopularityCheckboxVal}
+        />
+      </td>
+      <td>
+        <input
+          id="typeinp"
+          type="range"
+          min={0}
+          max={100}
+          value={popularitySliderVal}
+          onChange={changePopularitySliderVal}
+          step={1}
+        />
+      </td>
+    </tr>
+  );
 
   return recs && spotifyPlayer ? (
     <span className="player">
@@ -103,7 +259,7 @@ function Header(props) {
       <div>
         <button
           onClick={() => {
-            createSeed;
+            createSeed();
           }}
         >
           Add as seed
@@ -121,25 +277,17 @@ function Header(props) {
           Based On:
         </a>
         <div id="basedOn" className="collapse">
-          {seeds}
-          <span>
-            Danceability: &nbsp;
-            <input
-              type="checkbox"
-              value={checkboxVal}
-              onChange={changeCheckbox}
-            />
-            &nbsp;
-            <input
-              id="typeinp"
-              type="range"
-              min="0"
-              max="1"
-              value={sliderVal}
-              onChange={changeSliderVal}
-              step="0.05"
-            />
-          </span>
+          <table>
+            <tbody>{seeds}</tbody>
+          </table>
+          <table>
+            <tbody>
+              {acousticness}
+              {danceability}
+              {energy}
+              {popularity}
+            </tbody>
+          </table>
         </div>
       </div>
     </span>
@@ -155,8 +303,14 @@ function state2props(state) {
     recs: state.recs,
     spotifyPlayer: state.spotifyPlayer,
     session: state.session,
-    sliderVal: state.sliderVal,
-    checkboxVal: state.checkboxVal
+    danceabilitySliderVal: state.danceabilitySliderVal,
+    danceabilityCheckboxVal: state.danceabilityCheckboxVal,
+    acousticnessSliderVal: state.acousticnessSliderVal,
+    acousticnessCheckboxVal: state.acousticnessCheckboxVal,
+    energySliderVal: state.energySliderVal,
+    energyCheckboxVal: state.energyCheckboxVal,
+    popularitySliderVal: state.popularitySliderVal,
+    popularityCheckboxVal: state.popularityCheckboxVal
   };
 }
 

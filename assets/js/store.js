@@ -84,18 +84,72 @@ function predictions(state = [], action) {
   }
 }
 
-function sliderVal(state = 0.5, action) {
+function danceabilitySliderVal(state = 0.5, action) {
   switch (action.type) {
-    case 'NEW_SLIDER_VAL':
+    case 'NEW_DANCEABILITY_SLIDER_VAL':
       return action.data;
     default:
       return state;
   }
 }
 
-function checkboxVal(state = false, action) {
+function danceabilityCheckboxVal(state = false, action) {
   switch (action.type) {
-    case 'NEW_CHECKBOX_VAL':
+    case 'NEW_DANCEABILITY_CHECKBOX_VAL':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
+function acousticnessSliderVal(state = 0.5, action) {
+  switch (action.type) {
+    case 'NEW_ACOUSTICNESS_SLIDER_VAL':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
+function acousticnessCheckboxVal(state = false, action) {
+  switch (action.type) {
+    case 'NEW_ACOUSTICNESS_CHECKBOX_VAL':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
+function energySliderVal(state = 0.5, action) {
+  switch (action.type) {
+    case 'NEW_ENERGY_SLIDER_VAL':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
+function energyCheckboxVal(state = false, action) {
+  switch (action.type) {
+    case 'NEW_ENERGY_CHECKBOX_VAL':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
+function popularitySliderVal(state = 50, action) {
+  switch (action.type) {
+    case 'NEW_POPULARITY_SLIDER_VAL':
+      return action.data;
+    default:
+      return state;
+  }
+}
+
+function popularityCheckboxVal(state = false, action) {
+  switch (action.type) {
+    case 'NEW_POPULARITY_CHECKBOX_VAL':
       return action.data;
     default:
       return state;
@@ -115,8 +169,14 @@ function root_reducer(state0, action) {
     quote,
     weatherToggle,
     predictions,
-    sliderVal,
-    checkboxVal
+    danceabilitySliderVal,
+    danceabilityCheckboxVal,
+    acousticnessSliderVal,
+    acousticnessCheckboxVal,
+    energySliderVal,
+    energyCheckboxVal,
+    popularitySliderVal,
+    popularityCheckboxVal 
   });
 
   let state1 = reducer(state0, action);

@@ -65,13 +65,14 @@ class Server {
     );
   }
 
-  get_music(sliderVal) {
+  get_music(options) {
+    console.log(options);
     return $.ajax('/api/track', {
       method: 'get',
       dataType: 'json',
       data: {
         session: store.getState().session,
-        sliderVal: sliderVal
+        options
       },
       contentType: 'application/json; charset=UTF-8',
       success: resp => {
