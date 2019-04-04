@@ -8,7 +8,7 @@ function Trains(props) {
     i++;
     return <Stop key={i} nexts={p_arr} />;
   });
-  return (
+  return predictions ? (
     <div className="trains-wrapper">
       <a href="#trains" data-toggle="collapse">
         Next Trains
@@ -20,6 +20,8 @@ function Trains(props) {
         </table>
       </div>
     </div>
+  ) : (
+    <span />
   );
 }
 

@@ -25,30 +25,41 @@ defmodule HomepageWeb.SpotifyController do
 
 
   def top_5_tracks(conn, user_id) do
+
     db_tracks = Homepage.Tracks.list_tracks_by_user(user_id)
-    if length(db_tracks) >= 5 do
+    db_available_tracks = Enum.filter(db_tracks, &(!&1.soft_deleted))
+
+    if length(db_available_tracks) >= 5 do
       IO.puts("All from db")
-      tracks = Enum.sort(db_tracks, &(&1.inserted_at >= &2.inserted_at))
-      {conn, Enum.take(tracks, 5)}
+      {conn, Enum.take(db_available_tracks, 5)}
     else
-      {conn, spotify_tracks} = fetch_and_store(conn, user_id, 5 - length(db_tracks))
-      {conn, db_tracks ++ spotify_tracks}
+      {conn, spotify_tracks} = fetch_and_store(conn, user_id, 5 - length(db_available_tracks), db_tracks)
     end
   end
 
-  def fetch_and_store(conn, user_id, num_tracks) do
+  def fetch_and_store(conn, user_id, num_tracks, db_tracks) do
     with {:ok, _paging = %Paging{items: items}} <- Spotify.Personalization.top_tracks(conn, time_range: "short_term") do
-      tracks = Enum.take(items, num_tracks)
-      |> Enum.map(&(spotify_track_to_track(&1, user_id)))     
+      
+      # IO.inspect(items)
 
+
+      tracks = items
+      |> Enum.map(&(spotify_track_to_track(&1, user_id)))
+      |> Enum.filter(fn s_track -> !Enum.any?(db_tracks, &(&1.spotify_id == s_track.spotify_id)) end)
+      |> Enum.take(num_tracks)
+
+      IO.inspect(tracks)
+      
       Enum.each(tracks, &(Repo.insert(&1)))
+
+      tracks = Enum.take(Homepage.Tracks.list_available_tracks(user_id), 5)
 
       # TODO insert next track if insert breaks unique constraint
 
       {conn, tracks}
     else
       {:ok, _error} -> conn = HomepageWeb.OAuthController.refresh(conn)
-      fetch_and_store(conn, user_id, num_tracks)
+      fetch_and_store(conn, user_id, num_tracks, db_tracks)
     end
   end
 

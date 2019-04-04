@@ -23,9 +23,19 @@ defmodule Homepage.Tracks do
 
   def list_tracks_by_user(user_id) do
     q = from t in Track,
-          where: t.user_id == ^user_id
+          where: t.user_id == ^user_id,
+          order_by: [desc: t.inserted_at]
     Repo.all(q)
   end
+
+  def list_available_tracks(user_id) do
+    q = from t in Track,
+          where: t.user_id == ^user_id and not t.soft_deleted,
+          order_by: [desc: t.inserted_at]
+    Repo.all(q)
+  end
+
+
 
   @doc """
   Gets a single track.
@@ -92,7 +102,7 @@ defmodule Homepage.Tracks do
 
   """
   def delete_track(%Track{} = track) do
-    Repo.delete(track)
+    update_track(track, %{soft_deleted: true})
   end
 
   @doc """

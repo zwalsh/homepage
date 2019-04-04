@@ -36,6 +36,8 @@ defmodule HomepageWeb.TrackController do
   def delete(conn, %{"id" => id}) do
     track = Tracks.get_track!(id)
 
+    
+
     with {:ok, %Track{}} <- Tracks.delete_track(track) do
       send_resp(conn, :no_content, "")
     end
