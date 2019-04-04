@@ -11,10 +11,6 @@ defmodule HomepageWeb.SpotifyController do
     user_id = params["session"]["user_id"]
     options = params["options"]
 
-    unless Spotify.Authentication.tokens_present?(conn) do
-      conn
-    end
-
     {conn, tracks} = top_5_tracks(conn, user_id)
     IO.inspect(tracks)
     ids = tracks
