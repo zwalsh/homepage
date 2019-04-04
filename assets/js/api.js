@@ -65,7 +65,13 @@ class Server {
     );
   }
 
-  get_music(options) {
+  get_music() {
+    let options = {
+      danceability: store.getState().danceabilitySliderVal,
+      acousticness: store.getState().acousticnessSliderVal,
+      energy: store.getState().energySliderVal,
+      popularity: store.getState().popularitySliderVal
+    };
     console.log(options);
     return $.ajax('/api/track', {
       method: 'get',

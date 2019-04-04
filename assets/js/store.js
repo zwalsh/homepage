@@ -93,27 +93,9 @@ function danceabilitySliderVal(state = 0.5, action) {
   }
 }
 
-function danceabilityCheckboxVal(state = false, action) {
-  switch (action.type) {
-    case 'NEW_DANCEABILITY_CHECKBOX_VAL':
-      return action.data;
-    default:
-      return state;
-  }
-}
-
 function acousticnessSliderVal(state = 0.5, action) {
   switch (action.type) {
     case 'NEW_ACOUSTICNESS_SLIDER_VAL':
-      return action.data;
-    default:
-      return state;
-  }
-}
-
-function acousticnessCheckboxVal(state = false, action) {
-  switch (action.type) {
-    case 'NEW_ACOUSTICNESS_CHECKBOX_VAL':
       return action.data;
     default:
       return state;
@@ -129,27 +111,9 @@ function energySliderVal(state = 0.5, action) {
   }
 }
 
-function energyCheckboxVal(state = false, action) {
-  switch (action.type) {
-    case 'NEW_ENERGY_CHECKBOX_VAL':
-      return action.data;
-    default:
-      return state;
-  }
-}
-
 function popularitySliderVal(state = 50, action) {
   switch (action.type) {
     case 'NEW_POPULARITY_SLIDER_VAL':
-      return action.data;
-    default:
-      return state;
-  }
-}
-
-function popularityCheckboxVal(state = false, action) {
-  switch (action.type) {
-    case 'NEW_POPULARITY_CHECKBOX_VAL':
       return action.data;
     default:
       return state;
@@ -170,13 +134,9 @@ function root_reducer(state0, action) {
     weatherToggle,
     predictions,
     danceabilitySliderVal,
-    danceabilityCheckboxVal,
     acousticnessSliderVal,
-    acousticnessCheckboxVal,
     energySliderVal,
-    energyCheckboxVal,
     popularitySliderVal,
-    popularityCheckboxVal 
   });
 
   let state1 = reducer(state0, action);

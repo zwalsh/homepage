@@ -67,19 +67,27 @@ defmodule HomepageWeb.SpotifyController do
     "popularity" => popularity,
     }, seeds) do
 
+    IO.inspect(Spotify.Recommendation.get_recommendations_url(
+      seed_tracks: seeds,
+      target_danceability: danceability,
+      target_acousticness: acousticness,
+      target_energy: energy,
+      target_popularity: popularity
+    ))
+
     resp = Spotify.Recommendation.get_recommendations(
       conn,
       seed_tracks: seeds,
-      danceability: danceability,
-      acousticness: acousticness,
-      energy: energy,
-      popularity: popularity
+      target_danceability: danceability,
+      target_acousticness: acousticness,
+      target_energy: energy,
+      target_popularity: popularity
     )
 
     with {:ok, rec = %Spotify.Recommendation{}} <- resp do
       rec
     else
-      {:ok, _error} ->
+      {:ok, %{"error" => %{"message" => "The access token expired"}}} ->
         conn = HomepageWeb.OAuthController.refresh(conn)
         get_recs(conn, options, seeds)
     end
