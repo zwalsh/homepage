@@ -10,11 +10,11 @@ function Trains(props) {
   });
   return predictions ? (
     <div className="trains-wrapper">
+      <div className="background-blur" />
       <a href="#trains" data-toggle="collapse">
         Next Trains
       </a>
       <div id="trains" className="collapse">
-        <div className="background-blur" />
         <table>
           <tbody>{stops}</tbody>
         </table>

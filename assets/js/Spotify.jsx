@@ -207,12 +207,12 @@ function Header(props) {
           Refresh
         </button>
       </div>
-      <div>
+      <div className="relative">
+        <div className="background-blur" />
         <a href="#basedOn" data-toggle="collapse">
           Based On:
         </a>
         <div id="basedOn" className="collapse">
-          <div className="background-blur" />
           <table>
             <tbody>{seeds}</tbody>
           </table>

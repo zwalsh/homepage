@@ -15,6 +15,7 @@ function Weather(props) {
 
   return forecast ? (
     <div className="weather-wrapper">
+      <div className="background-blur" />
       <div>
         <span>{forecast.current.temp_f} °F</span> &nbsp; | &nbsp;
         <span>{forecast.current.condition.text}</span> &nbsp;
@@ -26,7 +27,6 @@ function Weather(props) {
         </a>
       </div>
       <div id="weather" className="collapse">
-        <div className="background-blur" />
         <table>
           <tbody>
             <tr>

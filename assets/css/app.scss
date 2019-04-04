@@ -159,6 +159,15 @@ a:hover {
 .track-name {
   font-size: 20px;
   font-style: italic;
+  max-width: 300px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: width;
+}
+
+#basedOn:hover .track-name {
+  max-width: none;
 }
 
 .track-artist {
@@ -193,7 +202,8 @@ td {
   filter: blur(100px);
 }
 
-#basedOn {
+#basedOn,
+.relative {
   position: relative;
 }
 
