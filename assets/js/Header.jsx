@@ -86,7 +86,7 @@ function Header(props) {
   return (
     <div className="mb-2">
       <div>
-        <h1>My Homepage</h1>
+        <h1>Your Homepage</h1>
       </div>
       <div>{session_info}</div>
     </div>

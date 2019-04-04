@@ -12,7 +12,7 @@ function Header(props) {
     danceabilitySliderVal,
     acousticnessSliderVal,
     energySliderVal,
-    popularitySliderVal,
+    popularitySliderVal
   } = props;
 
   function changeType(ev) {
@@ -87,9 +87,9 @@ function Header(props) {
     _.map(recs.tracks, track => {
       seeds.push(
         <tr key={track.id}>
-          <td className="track-name">{track.title}</td>
-          <td>-</td>
-          <td>{track.artist}</td>
+          <td className="track-name">
+            {track.title} - <span className="track-artist">{track.artist}</span>
+          </td>
           <td
             onClick={ev => {
               removeSeed(ev);
@@ -241,8 +241,8 @@ function state2props(state) {
     danceabilitySliderVal: state.danceabilitySliderVal,
     acousticnessSliderVal: state.acousticnessSliderVal,
     energySliderVal: state.energySliderVal,
-    popularitySliderVal: state.popularitySliderVal,
-   };
+    popularitySliderVal: state.popularitySliderVal
+  };
 }
 
 export default connect(state2props)(Header);

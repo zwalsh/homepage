@@ -28,7 +28,8 @@ defmodule HomepageWeb.SpotifyController do
     db_tracks = Homepage.Tracks.list_tracks_by_user(user_id)
     if length(db_tracks) >= 5 do
       IO.puts("All from db")
-      {conn, Enum.take(db_tracks, 5)}
+      tracks = Enum.sort(db_tracks, &(&1.inserted_at >= &2.inserted_at))
+      {conn, Enum.take(tracks, 5)}
     else
       {conn, spotify_tracks} = fetch_and_store(conn, user_id, 5 - length(db_tracks))
       {conn, db_tracks ++ spotify_tracks}
@@ -38,8 +39,12 @@ defmodule HomepageWeb.SpotifyController do
   def fetch_and_store(conn, user_id, num_tracks) do
     with {:ok, _paging = %Paging{items: items}} <- Spotify.Personalization.top_tracks(conn, time_range: "short_term") do
       tracks = Enum.take(items, num_tracks)
-                |> Enum.map(&(spotify_track_to_track(&1, user_id)))
+      |> Enum.map(&(spotify_track_to_track(&1, user_id)))     
+
       Enum.each(tracks, &(Repo.insert(&1)))
+
+      # TODO insert next track if insert breaks unique constraint
+
       {conn, tracks}
     else
       {:ok, _error} -> conn = HomepageWeb.OAuthController.refresh(conn)

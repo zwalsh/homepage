@@ -11,6 +11,6 @@ defmodule Homepage.Repo.Migrations.CreateTracks do
       timestamps()
     end
 
-    create index(:tracks, [:user_id])
+    create index(:tracks, [:spotify_id, :user_id], unique: true)
   end
 end
