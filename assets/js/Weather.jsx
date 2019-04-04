@@ -26,6 +26,7 @@ function Weather(props) {
         </a>
       </div>
       <div id="weather" className="collapse">
+        <div className="background-blur" />
         <table>
           <tbody>
             <tr>

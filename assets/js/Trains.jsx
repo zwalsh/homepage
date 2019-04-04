@@ -14,7 +14,10 @@ function Trains(props) {
         Next Trains
       </a>
       <div id="trains" className="collapse">
-        <table><tbody>{stops}</tbody></table>
+        <div className="background-blur" />
+        <table>
+          <tbody>{stops}</tbody>
+        </table>
       </div>
     </div>
   );

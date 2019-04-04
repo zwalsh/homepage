@@ -6,6 +6,7 @@ defmodule Homepage.Tracks.Track do
     field :artist, :string
     field :spotify_id, :string
     field :title, :string
+    field :soft_deleted, :boolean
     belongs_to :user, Homepage.Users.User
 
     timestamps()
@@ -14,7 +15,7 @@ defmodule Homepage.Tracks.Track do
   @doc false
   def changeset(track, attrs) do
     track
-    |> cast(attrs, [:spotify_id, :title, :artist, :user_id])
+    |> cast(attrs, [:spotify_id, :title, :artist, :soft_deleted, :user_id])
     |> validate_required([:spotify_id, :title, :artist, :user_id])
   end
 end

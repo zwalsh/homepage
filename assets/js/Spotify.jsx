@@ -212,6 +212,7 @@ function Header(props) {
           Based On:
         </a>
         <div id="basedOn" className="collapse">
+          <div className="background-blur" />
           <table>
             <tbody>{seeds}</tbody>
           </table>
