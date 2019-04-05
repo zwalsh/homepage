@@ -30,5 +30,6 @@ defmodule HomepageWeb.Router do
     resources "/tracks", TrackController, except: [:new, :edit]
     post "/authorize", AuthController, :authorize
     get "/track", SpotifyController, :track
+    get "/seeds", SpotifyController, :top_5_tracks
   end
 end

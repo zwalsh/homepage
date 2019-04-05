@@ -13,8 +13,6 @@ defmodule HomepageWeb.UserController do
 
   def create(conn, %{"user" => user_params}) do
 
-    IO.inspect(user_params)
-
     with password <- user_params["password"],
       password_hash <- Argon2.hash_pwd_salt(password),
       user_params <- Map.put(user_params, "password_hash", password_hash),

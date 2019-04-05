@@ -6,7 +6,8 @@ import api from './api';
 
 function Header(props) {
   let {
-    recs,
+    rec,
+    seeds,
     spotifyPlayer,
     session,
     danceabilitySliderVal,
@@ -21,13 +22,13 @@ function Header(props) {
 
     switch (newType) {
       case 'track':
-        newId = recs.rec.id;
+        newId = rec.id;
         break;
       case 'album':
-        newId = recs.rec.album.id;
+        newId = rec.album.id;
         break;
       case 'artist':
-        newId = recs.rec.artists[0].id;
+        newId = rec.artists[0].id;
         break;
     }
     store.dispatch({
@@ -37,12 +38,7 @@ function Header(props) {
   }
 
   function createSeed() {
-    api.addSeed(
-      session.user_id,
-      recs.rec.id,
-      recs.rec.artists[0].name,
-      recs.rec.name
-    );
+    api.addSeed(session.user_id, rec.id, rec.artists[0].name, rec.name);
   }
 
   function removeSeed(ev) {
@@ -81,20 +77,20 @@ function Header(props) {
     });
   }
 
-  let seeds = [];
+  let displaySeeds = [];
 
-  if (recs && spotifyPlayer) {
-    _.map(recs.tracks, track => {
-      seeds.push(
-        <tr key={track.id}>
+  if (seeds && spotifyPlayer) {
+    _.map(seeds, seed => {
+      displaySeeds.push(
+        <tr key={seed.id}>
           <td className="track-name">
-            {track.title} - <span className="track-artist">{track.artist}</span>
+            {seed.title} - <span className="track-artist">{seed.artist}</span>
           </td>
           <td
             onClick={ev => {
               removeSeed(ev);
             }}
-            data-id={track.id}
+            data-id={seed.id}
             className="remove-seed"
           >
             Remove
@@ -172,7 +168,7 @@ function Header(props) {
     </tr>
   );
 
-  return recs && spotifyPlayer ? (
+  return rec && spotifyPlayer ? (
     <span className="player">
       <iframe
         src={`https://open.spotify.com/embed/${spotifyPlayer.spotifyType}/${
@@ -214,7 +210,7 @@ function Header(props) {
         </a>
         <div id="basedOn" className="collapse">
           <table>
-            <tbody>{seeds}</tbody>
+            <tbody>{displaySeeds}</tbody>
           </table>
           <table>
             <tbody>
@@ -236,7 +232,8 @@ function Header(props) {
 
 function state2props(state) {
   return {
-    recs: state.recs,
+    rec: state.rec,
+    seeds: state.seeds,
     spotifyPlayer: state.spotifyPlayer,
     session: state.session,
     danceabilitySliderVal: state.danceabilitySliderVal,

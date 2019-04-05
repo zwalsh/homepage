@@ -37,12 +37,22 @@ function forecast(state = null, action) {
   }
 }
 
-function recs(state = null, action) {
+function rec(state = null, action) {
   switch (action.type) {
-    case 'NEW_RECS':
+    case 'NEW_REC':
       return action.data;
     case 'REC_REMOVE':
       return state;
+    default:
+      return state;
+  }
+}
+
+function seeds(state = null, action) {
+
+  switch (action.type) {
+    case 'NEW_SEEDS':
+      return action.data;
     default:
       return state;
   }
@@ -121,14 +131,13 @@ function popularitySliderVal(state = 50, action) {
 }
 
 function root_reducer(state0, action) {
-  // console.log('reducer', state0, action);
-
   let reducer = combineReducers({
     user,
     session,
     bg_img,
     forecast,
-    recs,
+    rec,
+    seeds,
     spotifyPlayer,
     quote,
     weatherToggle,
@@ -140,8 +149,6 @@ function root_reducer(state0, action) {
   });
 
   let state1 = reducer(state0, action);
-
-  // console.log('reducer1', state1);
 
   return deepFreeze(state1);
 }

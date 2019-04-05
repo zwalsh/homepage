@@ -51,14 +51,12 @@ class Server {
           password
         }
       },
-      resp => {
+      () => {
         this.create_session(email, password);
-
         redirect();
       },
       (request, _status, _error) => {
         if (request) {
-          console.log(request);
           alert('Username already taken');
         }
       }
@@ -72,26 +70,46 @@ class Server {
       energy: store.getState().energySliderVal,
       popularity: store.getState().popularitySliderVal
     };
-    console.log(options);
+    let seeds = store.getState().seeds;
     return $.ajax('/api/track', {
       method: 'get',
       dataType: 'json',
       data: {
         session: store.getState().session,
-        options
+        options,
+        seeds
       },
       contentType: 'application/json; charset=UTF-8',
       success: resp => {
         store.dispatch({
-          type: 'NEW_RECS',
-          data: resp
+          type: 'NEW_REC',
+          data: resp.rec
         });
+        
         store.dispatch({
           type: 'NEW_SPOTIFY_PLAYER',
           data: {
             spotifyType: 'track',
             spotifyId: resp.rec.id
           }
+        });
+      }
+    });
+  }
+
+  get_seeds() {
+    let session = store.getState().session;
+    return $.ajax('/api/seeds', {
+      method: 'get',
+      dataType: 'json',
+      data: {
+        session
+      },
+      contentType: 'application/json; charset=UTF-8',
+      success: resp => {
+        store.dispatch({
+          type: "NEW_SEEDS",
+          data: resp.seeds
         });
       }
     });
@@ -105,6 +123,9 @@ class Server {
         artist,
         title
       }
+    },
+    () => {
+      this.get_seeds();
     });
   }
 
@@ -113,8 +134,8 @@ class Server {
       method: 'delete',
       dataType: 'json',
       contentType: 'application/json; charset=UTF-8',
-      success: resp => {
-        this.get_music();
+      success: () => {
+        this.get_seeds();
       }
     });
   }

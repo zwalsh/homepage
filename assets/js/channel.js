@@ -20,7 +20,6 @@ class ChannelWrapper {
 
       let channel = socket.channel('homepage:' + session.user_id, {});
       channel.join().receive('ok', resp => {
-        console.log(resp);
         this.sendCoords(channel);
         setInterval(() => {
           this.sendCoords(channel);
@@ -31,33 +30,29 @@ class ChannelWrapper {
           type: 'NEW_BG_IMG',
           data: resp.url
         });
-        console.log(resp);
       });
       channel.on('forecast', resp => {
         store.dispatch({
           type: 'NEW_WEATHER',
           data: resp.forecast
         });
-        console.log(resp);
       });
       channel.on('predictions', resp => {
         store.dispatch({
           type: 'NEW_PREDICTIONS',
           data: resp.predictions
         });
-        console.log(resp);
       });
       channel.on('quote', resp => {
         store.dispatch({
           type: 'NEW_QUOTE',
           data: resp.quote
         });
-        console.log(resp);
       });
 
-      api.get_music().then(resp => {
-        console.log(resp);
-      });
+      api.get_seeds().then(() => {
+        api.get_music();
+      })
     });
   }
 
@@ -66,7 +61,6 @@ class ChannelWrapper {
       navigator.geolocation.getCurrentPosition(position => {
         let latitude = position.coords.latitude;
         let longitude = position.coords.longitude;
-        console.log(latitude, longitude);
         channel.push('coords', {
           latitude: latitude.toString(),
           longitude: longitude.toString()
