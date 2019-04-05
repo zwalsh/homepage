@@ -75,7 +75,6 @@ class Server {
       method: 'get',
       dataType: 'json',
       data: {
-        session: store.getState().session,
         options,
         seeds
       },

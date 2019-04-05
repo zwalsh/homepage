@@ -8,8 +8,6 @@ defmodule HomepageWeb.SpotifyController do
   alias HomepageWeb.TrackView
 
   def track(conn, params) do
-
-    user_id = params["session"]["user_id"]
     options = params["options"]
     tracks = Map.values(params["seeds"])
 

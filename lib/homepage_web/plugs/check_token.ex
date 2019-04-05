@@ -3,7 +3,7 @@ defmodule HomepageWeb.Plugs.CheckToken do
 
   def init(args), do: args
 
-  def call(conn, params) do
+  def call(conn, _params) do
     conn
     # case Phoenix.Token.verify(HomepageWeb.Endpoint, "user_id", token, max_age: 86400) do
     #   {:ok, id} -> conn
