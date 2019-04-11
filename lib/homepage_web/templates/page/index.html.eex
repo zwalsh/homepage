@@ -1,6 +1,6 @@
 <div id="root">
   <div class="row">
-    <div class="col-12">
+    <div class="col-12 no-shadow">
       <p>Loading...</p>
     </div>
   </div>

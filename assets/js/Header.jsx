@@ -53,44 +53,59 @@ function Header(props) {
   session_info = session ? (
     <div className="mb-2">
       <div>
-        Good {greeting}, {session.first}
+        <h1>Your Homepage</h1>
       </div>
-      <button className="btn btn-secondary" onClick={() => logout()}>
-        Logout
-      </button>
+      <div className="mb-2">
+        <div>
+          Good {greeting}, {session.first}
+        </div>
+        <button className="btn btn-secondary" onClick={() => logout()}>
+          Logout
+        </button>
+      </div>
     </div>
   ) : (
-    <div>
-      <input type="email" placeholder="email" onChange={updateEmail} /> &nbsp;
-      <input
-        type="password"
-        placeholder="password"
-        onChange={updatePassword}
-        onKeyPress={e => {
-          if (e.key == 'Enter') {
-            login();
-          }
-        }}
-      />
-      &nbsp;
-      <button className="btn btn-secondary" onClick={login}>
-        Login
-      </button>
-      &nbsp;
-      <Link to={'/register'}>
-        <button className="btn btn-secondary">Register</button>
-      </Link>
-    </div>
-  );
-
-  return (
-    <div className="mb-2">
+    <div className="mb-2 no-shadow">
       <div>
         <h1>Your Homepage</h1>
       </div>
-      <div>{session_info}</div>
+      <div>
+        <div className="form">
+          <div className="form-group">
+            <label>Username</label>
+            <input
+              type="text"
+              className="form-control"
+              onChange={updateEmail}
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              className="form-control"
+              onChange={updatePassword}
+              onKeyPress={e => {
+                if (e.key == 'Enter') {
+                  login();
+                }
+              }}
+            />
+          </div>
+          <button className="btn btn-primary" onClick={login}>
+            Login
+          </button>
+        </div>
+        <div className="register">
+          Don't have an account?{' '}
+          <Link to={'/register'}>
+            <button className="btn btn-secondary">Register</button>
+          </Link>
+        </div>
+      </div>
     </div>
   );
+  return session_info;
 }
 
 function state2props(state) {

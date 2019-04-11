@@ -12,11 +12,6 @@ html {
     1px 1px 0 #000;
 }
 
-body {
-  background: rgb(208, 255, 165);
-  background: linear-gradient(180deg, rgba(208, 255, 165, 1) 12%, rgba(0, 212, 255, 1) 100%);
-}
-
 a {
   color: white;
 }
@@ -205,6 +200,24 @@ td {
 #basedOn,
 .relative {
   position: relative;
+}
+
+.form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.no-shadow *:not(button) {
+  color: black;
+  text-shadow: none;
+}
+
+h1 {
+  transition: all .5s ease-in;
+}
+
+.form {
+  text-align: left;
 }
 
 @keyframes fadein {
